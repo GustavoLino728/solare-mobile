@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'AthachantrTrial-Regular';
+    src: url('/font/AthachantrTrial-Regular.otf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: AthachantrTrial-Regular;
+    background-color: #f9f9f9;
+    color: white;
+}
+
+.container-produtos{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+

@@ -1,0 +1,1 @@
+import Produto from './produtos.js';
