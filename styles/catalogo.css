@@ -1,3 +1,9 @@
+/*
+paleta
+cor principal: #99b38f
+botão ativo: #546D4A
+
+*/
 @font-face {
     font-family: 'AthachantrTrial-Regular';
     src: url('/font/AthachantrTrial-Regular.otf');
@@ -26,12 +32,13 @@ body {
 .botoes-filtros{
     background-color: #99b38f;
     color: black;
+    stroke: none;
     text-decoration: none;
     padding: 4px;
     font-size: 18px;
     font-family: AthachantrTrial-Regular;
     border: 0.1px solid black;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px;
 }
 
@@ -48,13 +55,14 @@ body {
     margin-top: 20px;
 }
 
-.produto-itens{
+.produto-itens:not(p){
   background-color: #99b38f;
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 10px;
   padding: 10px;
-  text-align: center;
+  text-align: left;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
 }
 
 .produto-itens img {
@@ -63,12 +71,10 @@ body {
 }
 
 .produto-itens h3 {
-    font-size: 16px;
     margin: 10px 0;
   }
   
 .produto-itens p {
-    font-size: 14px;
     color: white;
     font-weight: bold;
 }
