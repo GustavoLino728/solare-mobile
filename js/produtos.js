@@ -7,7 +7,7 @@ const Produto = [
         tipo: "anel",
         preco: "10",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
     {
@@ -16,7 +16,7 @@ const Produto = [
         tipo: "anel",
         preco: "15",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
     {
@@ -25,7 +25,7 @@ const Produto = [
         tipo: "anel",
         preco: "15",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
     {
@@ -34,7 +34,7 @@ const Produto = [
         tipo: "anel",
         preco: "15",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
     {
@@ -43,7 +43,7 @@ const Produto = [
         tipo: "anel",
         preco: "15",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
     {
@@ -52,7 +52,7 @@ const Produto = [
         tipo: "anel",
         preco: "15",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
     {
@@ -61,7 +61,7 @@ const Produto = [
         tipo: "anel",
         preco: "20",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
     {
@@ -70,7 +70,7 @@ const Produto = [
         tipo: "anel",
         preco: "20",
         tamanhos: "",
-        imagem: "../img/anel/anel-ouro.png", 
+        imagem: "./img/anel/anel-ouro.png", 
 
     },
 
@@ -80,7 +80,7 @@ const Produto = [
         nome: "Bracelete",
         tipo: "bracelete",
         preco: "",
-        imagem: "../img/bracelete/"
+        imagem: "./img/bracelete/"
     },
     // Brincos
     {
@@ -88,7 +88,7 @@ const Produto = [
         nome: "Brinco",
         tipo: "brinco",
         preco: "",
-        imagem: "../img/brinco/",
+        imagem: "./img/brinco/",
     },
     // Colares
     {
@@ -96,7 +96,7 @@ const Produto = [
         nome: "Colar ",
         tipo: "colar",
         preco: "15",
-        imagem: "../img/colar/"
+        imagem: "./img/colar/"
     },
     //Pulseiras
     {
@@ -104,7 +104,7 @@ const Produto = [
         nome: "Pulseira",
         tipo: "pulseira",
         preco: "",
-        imagem: "../img/pulseira/"
+        imagem: "./img/pulseira/"
     },
     // Tornozeleiras
     {
@@ -112,7 +112,7 @@ const Produto = [
         nome: "Tornozeleira de Buzios",
         tipo: "tornozeleira",
         preco: "15",
-        imagem: "../img/tornozeleira/"
+        imagem: "./img/tornozeleira/"
     }
 ]
 
