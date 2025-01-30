@@ -15,9 +15,61 @@ body {
     color: white;
 }
 
-.container-produtos{
+.filtros{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    background-color: w;
 }
 
+.botoes-filtros{
+    background-color: #99b38f;
+    color: black;
+    text-decoration: none;
+    padding: 4px;
+    font-size: 18px;
+    font-family: AthachantrTrial-Regular;
+    border: 0.1px solid black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.botoes-filtros.ativo {
+    background-color: #546D4A; 
+    font-weight: bold;
+    color: white; 
+}
+
+.container-produtos{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 20px;
+}
+
+.produto-itens{
+  background-color: #99b38f;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.produto-itens img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.produto-itens h3 {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+.produto-itens p {
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+}
 
