@@ -5,72 +5,72 @@ const Produto = [
         id: 1,
         nome: "Anel Solitário",
         tipo: "anel",
-        preco: "10,00",
+        preco: "10",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
     {
         id: 2,
         nome: "Anel de Onda",
         tipo: "anel",
-        preco: "15,00",
+        preco: "15",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
     {
         id: 3,
         nome: "Anel de Folha",
         tipo: "anel",
-        preco: "15,00",
+        preco: "15",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
     {
         id: 4,
         nome: "Anel de Coração (Vazado)",
         tipo: "anel",
-        preco: "15,00",
+        preco: "15",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
     {
         id: 5,
         nome: "Anel de Multiplos Corações",
         tipo: "anel",
-        preco: "15,00",
+        preco: "15",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
     {
         id: 6,
         nome: "Anel de Estrela",
         tipo: "anel",
-        preco: "15,00",
+        preco: "15",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
     {
         id: 7,
         nome: "Anel de Coração Maciço",
         tipo: "anel",
-        preco: "20,00",
+        preco: "20",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
     {
         id: 8,
         nome: "Anel Maciço",
         tipo: "anel",
-        preco: "20,00",
+        preco: "20",
         tamanhos: "",
-        imagem: "./img/", 
+        imagem: "../img/anel/anel-ouro.png", 
 
     },
 
@@ -80,6 +80,7 @@ const Produto = [
         nome: "Bracelete",
         tipo: "bracelete",
         preco: "",
+        imagem: "../img/bracelete/"
     },
     // Brincos
     {
@@ -87,14 +88,15 @@ const Produto = [
         nome: "Brinco",
         tipo: "brinco",
         preco: "",
+        imagem: "../img/brinco/",
     },
     // Colares
     {
         id: 300,
         nome: "Colar ",
         tipo: "colar",
-        preco: "15,00",
-
+        preco: "15",
+        imagem: "../img/colar/"
     },
     //Pulseiras
     {
@@ -102,6 +104,7 @@ const Produto = [
         nome: "Pulseira",
         tipo: "pulseira",
         preco: "",
+        imagem: "../img/pulseira/"
     },
     // Tornozeleiras
     {
@@ -109,6 +112,7 @@ const Produto = [
         nome: "Tornozeleira de Buzios",
         tipo: "tornozeleira",
         preco: "15",
+        imagem: "../img/tornozeleira/"
     }
 ]
 

@@ -10,8 +10,8 @@ function exibirProdutos(produtosFiltrados) {
         const produto_itens = `
           <div class="produto-itens" data-category="${produto.tipo}">
             <img src="${produto.imagem}" alt="${produto.nome}">
-            <h3 class="produto-itens">${produto.nome}</h3>
-            <p>R$${produto.preco}</p>
+            <p class="produto-itens">${produto.nome}</p>
+            <p>R$${produto.preco},00</p>
           </div>
         `;
         container_produtos.innerHTML += produto_itens;
