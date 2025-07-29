@@ -1,0 +1,160 @@
+const apiBase = 'http://localhost:5000/api/products';
+
+// Função para buscar e mostrar produtos
+async function loadProducts() {
+  try {
+    const res = await fetch(apiBase);
+    if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
+
+    const products = await res.json();
+
+    const tbody = document.querySelector('#productsTable tbody');
+    tbody.innerHTML = '';
+
+    if (!products.length) {
+      tbody.innerHTML = '<tr><td colspan="8">Nenhum produto cadastrado.</td></tr>';
+      return;
+    }
+
+    products.forEach(p => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td data-label="ID">${p.id}</td>
+        <td data-label="Nome">${p.name}</td>
+        <td data-label="Categoria">${p.category}</td>
+        <td data-label="Preço">R$ ${p.price.toFixed(2)}</td>
+        <td data-label="Descrição">${p.description || ''}</td>
+        <td data-label="Tamanho">${p.size || ''}</td>
+        <td data-label="Cor">${p.color || ''}</td>
+        <td data-label="Ações">
+          <button type="button" onclick="editProduct(${p.id})">Editar</button>
+          <button type="button" onclick="deleteProduct(${p.id})">Excluir</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (error) {
+    alert(`Erro ao carregar produtos: ${error.message}`);
+  }
+}
+
+// Adicionar novo produto com upload de arquivo
+document.getElementById('formAddProduct').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+
+  // Validação simples
+  if (!form.name.value.trim() || !form.category.value.trim() || !form.price.value || form.img.files.length === 0) {
+    alert('Preencha os campos obrigatórios corretamente e selecione uma imagem.');
+    return;
+  }
+
+  try {
+    const res = await fetch(apiBase, {
+      method: 'POST',
+      body: formData // envio multipart/form-data com arquivo
+    });
+
+    if (!res.ok) throw new Error('Erro ao adicionar produto');
+
+    alert('Produto adicionado!');
+    form.reset();
+    loadProducts();
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+// Deletar produto
+async function deleteProduct(id) {
+  if (!confirm("Tem certeza que deseja excluir este produto?")) return;
+
+  try {
+    const res = await fetch(`${apiBase}/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Erro ao deletar produto');
+    alert('Produto deletado com sucesso!');
+    loadProducts();
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+// Modal e edição
+
+const editModal = document.getElementById('editModal');
+const formEdit = document.getElementById('formEditProduct');
+const cancelEditBtn = document.getElementById('cancelEdit');
+
+async function editProduct(id) {
+  try {
+    const res = await fetch(`${apiBase}/${id}`);
+    if (!res.ok) throw new Error('Produto não encontrado');
+    const product = await res.json();
+
+    formEdit.id.value = product.id;
+    formEdit.name.value = product.name;
+    formEdit.category.value = product.category;
+    formEdit.price.value = product.price;
+    // Limpa o input file pois não é possível setar valor nele
+    formEdit.img.value = '';
+
+    formEdit.description.value = product.description || '';
+    formEdit.size.value = product.size || '';
+    formEdit.color.value = product.color || '';
+
+    editModal.classList.add('show');
+    editModal.setAttribute('aria-hidden', 'false');
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+cancelEditBtn.onclick = () => {
+  editModal.classList.remove('show');
+  editModal.setAttribute('aria-hidden', 'true');
+};
+
+formEdit.onsubmit = async (e) => {
+  e.preventDefault();
+
+  const id = formEdit.id.value;
+  const formData = new FormData();
+
+  formData.append('name', formEdit.name.value.trim());
+  formData.append('category', formEdit.category.value.trim());
+  formData.append('price', formEdit.price.value);
+  formData.append('description', formEdit.description.value.trim());
+  formData.append('size', formEdit.size.value.trim());
+  formData.append('color', formEdit.color.value.trim());
+
+  const fileInput = formEdit.querySelector('input[name="img"]');
+  if (fileInput.files.length > 0) {
+    formData.append('img', fileInput.files[0]);
+  }
+  // Se nenhum arquivo foi selecionado, backend deve manter imagem antiga
+
+  if (!formEdit.name.value.trim() || !formEdit.category.value.trim() || isNaN(parseFloat(formEdit.price.value))) {
+    alert('Preencha os campos obrigatórios corretamente.');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${apiBase}/${id}`, {
+      method: 'PUT',
+      body: formData // envio multipart/form-data com possível arquivo
+    });
+
+    if (!res.ok) throw new Error('Erro ao atualizar produto');
+
+    alert('Produto atualizado com sucesso!');
+    editModal.classList.remove('show');
+    editModal.setAttribute('aria-hidden', 'true');
+    loadProducts();
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// Inicializa carregamento dos produtos
+loadProducts();
