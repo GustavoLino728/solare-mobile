@@ -5,6 +5,7 @@ certifi==2025.7.14
 click==8.2.1
 deprecation==2.1.0
 Flask==3.1.1
+flask-cors==6.0.1
 gotrue==2.12.3
 h11==0.16.0
 h2==4.2.0
@@ -22,6 +23,7 @@ pydantic==2.11.7
 pydantic_core==2.33.2
 PyJWT==2.10.1
 python-dateutil==2.9.0.post0
+python-dotenv==1.1.1
 realtime==2.6.0
 six==1.17.0
 sniffio==1.3.1
