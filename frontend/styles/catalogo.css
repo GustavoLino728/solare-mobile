@@ -6,7 +6,7 @@ botão ativo: #546D4A
 */
 @font-face {
     font-family: 'AthachantrTrial-Regular';
-    src: url('/font/AthachantrTrial-Regular.otf');
+    src: url('../font/AthachantrTrial-Regular.otf');
 }
 
 * {
@@ -16,7 +16,7 @@ botão ativo: #546D4A
 }
 
 body {
-    font-family: AthachantrTrial-Regular;
+    font-family: sans-serif;
     background-color: #f9f9f9;
     color: white;
 }
@@ -31,7 +31,7 @@ body {
 #barra-pesquisa {
   width: 100%;
   max-width: 400px;
-  padding: 12px 16px 12px 40px; /* espaço à esquerda para a lupa */
+  padding: 12px 16px 12px 40px; 
   border: 2px solid #99b38f;
   border-radius: 8px;
   background-color: #f9f9f9;
@@ -125,7 +125,7 @@ body {
 
 /* Modal Background */
 .modal {
-  display: none; /* fica escondido inicialmente */
+  display: none; 
   position: fixed;
   z-index: 1000;
   left: 0; top: 0;
@@ -136,7 +136,6 @@ body {
   align-items: center;
 }
 
-/* Conteúdo do modal */
 .modal-content {
   background-color: #99b38f;
   color: white;
@@ -149,7 +148,6 @@ body {
   position: relative;
 }
 
-/* Botão fechar */
 .close {
   position: absolute;
   top: 10px; right: 15px;
@@ -159,7 +157,6 @@ body {
   cursor: pointer;
 }
 
-/* Imagem maior */
 #modalImage {
   max-width: 100%;
   max-height: 100%;
@@ -169,7 +166,6 @@ body {
   margin-bottom: 15px;
 }
 
-/* Nome e preço em destaque */
 #modalName {
   font-size: 1.8rem;
   margin-bottom: 5px;
@@ -181,7 +177,6 @@ body {
   color: #305820;
 }
 
-/* Outros atributos menores */
 .modal-content p {
   font-size: 1.1rem;
   margin: 8px 0;

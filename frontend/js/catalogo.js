@@ -1,10 +1,10 @@
-const API = "http://localhost:5000/api/products";
+import { API_URL } from "./config.js";
 let filtroAtual = "todos";
 let produtosOriginais = [];
 
 async function buscarProdutos() {
     try {
-        const response = await fetch(API);
+        const response = await fetch(`${API_URL}/products`);
         const produtos = await response.json();
         return produtos;
     } catch (error) {
