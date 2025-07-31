@@ -12,6 +12,10 @@ header {
    padding-right: 20px;
 }
 
+.titulo{
+    font-family: 'AthachantrTrial-Regular';
+}
+
 .contato{
     display: flex;
     gap: 15px;

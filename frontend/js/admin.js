@@ -1,10 +1,12 @@
-const APILink = "http://localhost:5000";
-const apiBase = `${APILink}/api/products`;
+import { API_URL } from "./config.js";
+
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
 
 // Função para verificar se o admin está logado
 async function checkAdmin() {
   try {
-    const res = await fetch(`${APILink}/api/check-auth`, {
+    const res = await fetch(`${API_URL}/check-auth`, {
       credentials: 'include'
     });
     const data = await res.json();
@@ -21,7 +23,7 @@ async function checkAdmin() {
 // Função para logout
 async function logout() {
   try {
-    const res = await fetch(`${APILink}/api/logout`, {
+    const res = await fetch(`${API_URL}/logout`, {
       method: 'POST',
       credentials: 'include'
     });
@@ -38,7 +40,7 @@ async function logout() {
 // Função para buscar e mostrar produtos
 async function loadProducts() {
   try {
-    const res = await fetch(apiBase, { credentials: 'include' });
+    const res = await fetch(`${API_URL}/products`, { credentials: 'include' });
     if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
 
     const products = await res.json();
@@ -84,7 +86,7 @@ document.getElementById('formAddProduct').addEventListener('submit', async (e) =
   }
 
   try {
-    const res = await fetch(apiBase, {
+    const res = await fetch(`${API_URL}/products`, {
       method: 'POST',
       body: formData,
       credentials: 'include'
@@ -105,7 +107,7 @@ async function deleteProduct(id) {
   if (!confirm("Tem certeza que deseja excluir este produto?")) return;
 
   try {
-    const res = await fetch(`${apiBase}/${id}`, { method: 'DELETE', credentials: 'include' });
+    const res = await fetch(`${API_URL}/products/${id}`, { method: 'DELETE', credentials: 'include' });
     if (!res.ok) throw new Error('Erro ao deletar produto');
     alert('Produto deletado com sucesso!');
     loadProducts();
@@ -121,7 +123,7 @@ const cancelEditBtn = document.getElementById('cancelEdit');
 
 async function editProduct(id) {
   try {
-    const res = await fetch(`${apiBase}/${id}`, { credentials: 'include' });
+    const res = await fetch(`${API_URL}/products/${id}`, { credentials: 'include' });
     if (!res.ok) throw new Error('Produto não encontrado');
     const product = await res.json();
 
@@ -171,7 +173,7 @@ formEdit.onsubmit = async (e) => {
   }
 
   try {
-    const res = await fetch(`${apiBase}/${id}`, {
+    const res = await fetch(`${API_URL}/products/${id}`, {
       method: 'PUT',
       body: formData,
       credentials: 'include'

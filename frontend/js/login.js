@@ -1,4 +1,4 @@
-const APILink = "http://localhost:5000";
+import { API_URL } from "./config.js";
 
 // Captura o evento de envio do formulário
 document.addEventListener("DOMContentLoaded", () => {
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Função para fazer login
 async function login(email, senha) {
   try {
-    const res = await fetch(`${APILink}/api/login`, {
+    const res = await fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
