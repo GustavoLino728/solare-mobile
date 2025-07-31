@@ -1,13 +1,47 @@
-const apiBase = 'http://localhost:5000/api/products';
+const APILink = "http://localhost:5000";
+const apiBase = `${APILink}/api/products`;
+
+// Função para verificar se o admin está logado
+async function checkAdmin() {
+  try {
+    const res = await fetch(`${APILink}/api/check-auth`, {
+      credentials: 'include'
+    });
+    const data = await res.json();
+
+    if (!data.authenticated) throw new Error('Não autorizado');
+    return true;
+  } catch {
+    alert('Você precisa fazer login para acessar essa página.');
+    window.location.href = 'login.html';
+    return false;
+  }
+}
+
+// Função para logout
+async function logout() {
+  try {
+    const res = await fetch(`${APILink}/api/logout`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    if (!res.ok) throw new Error('Erro no logout');
+
+    alert('Logout realizado');
+    window.location.href = 'login.html';
+  } catch (error) {
+    alert('Erro ao realizar logout');
+  }
+}
 
 // Função para buscar e mostrar produtos
 async function loadProducts() {
   try {
-    const res = await fetch(apiBase);
+    const res = await fetch(apiBase, { credentials: 'include' });
     if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
 
     const products = await res.json();
-
     const tbody = document.querySelector('#productsTable tbody');
     tbody.innerHTML = '';
 
@@ -38,13 +72,12 @@ async function loadProducts() {
   }
 }
 
-// Adicionar novo produto com upload de arquivo
+// Adicionar novo produto
 document.getElementById('formAddProduct').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
 
-  // Validação simples
   if (!form.name.value.trim() || !form.category.value.trim() || !form.price.value || form.img.files.length === 0) {
     alert('Preencha os campos obrigatórios corretamente e selecione uma imagem.');
     return;
@@ -53,7 +86,8 @@ document.getElementById('formAddProduct').addEventListener('submit', async (e) =
   try {
     const res = await fetch(apiBase, {
       method: 'POST',
-      body: formData // envio multipart/form-data com arquivo
+      body: formData,
+      credentials: 'include'
     });
 
     if (!res.ok) throw new Error('Erro ao adicionar produto');
@@ -71,7 +105,7 @@ async function deleteProduct(id) {
   if (!confirm("Tem certeza que deseja excluir este produto?")) return;
 
   try {
-    const res = await fetch(`${apiBase}/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${apiBase}/${id}`, { method: 'DELETE', credentials: 'include' });
     if (!res.ok) throw new Error('Erro ao deletar produto');
     alert('Produto deletado com sucesso!');
     loadProducts();
@@ -81,14 +115,13 @@ async function deleteProduct(id) {
 }
 
 // Modal e edição
-
 const editModal = document.getElementById('editModal');
 const formEdit = document.getElementById('formEditProduct');
 const cancelEditBtn = document.getElementById('cancelEdit');
 
 async function editProduct(id) {
   try {
-    const res = await fetch(`${apiBase}/${id}`);
+    const res = await fetch(`${apiBase}/${id}`, { credentials: 'include' });
     if (!res.ok) throw new Error('Produto não encontrado');
     const product = await res.json();
 
@@ -96,7 +129,6 @@ async function editProduct(id) {
     formEdit.name.value = product.name;
     formEdit.category.value = product.category;
     formEdit.price.value = product.price;
-    // Limpa o input file pois não é possível setar valor nele
     formEdit.img.value = '';
 
     formEdit.description.value = product.description || '';
@@ -132,7 +164,6 @@ formEdit.onsubmit = async (e) => {
   if (fileInput.files.length > 0) {
     formData.append('img', fileInput.files[0]);
   }
-  // Se nenhum arquivo foi selecionado, backend deve manter imagem antiga
 
   if (!formEdit.name.value.trim() || !formEdit.category.value.trim() || isNaN(parseFloat(formEdit.price.value))) {
     alert('Preencha os campos obrigatórios corretamente.');
@@ -142,7 +173,8 @@ formEdit.onsubmit = async (e) => {
   try {
     const res = await fetch(`${apiBase}/${id}`, {
       method: 'PUT',
-      body: formData // envio multipart/form-data com possível arquivo
+      body: formData,
+      credentials: 'include'
     });
 
     if (!res.ok) throw new Error('Erro ao atualizar produto');
@@ -156,5 +188,17 @@ formEdit.onsubmit = async (e) => {
   }
 };
 
-// Inicializa carregamento dos produtos
-loadProducts();
+// Inicializa o admin
+window.onload = async () => {
+  const loggedIn = await checkAdmin();
+  if (loggedIn) loadProducts();
+
+  // Adiciona o listener para logout se houver botão
+  const logoutBtn = document.getElementById('logoutBtn');
+  if(logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await logout();
+    });
+  }
+};
