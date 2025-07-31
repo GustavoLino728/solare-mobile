@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
 from supabase_client import supabase
-import uuid
 import os
 import tempfile
 import mimetypes
 import re
+
 
 products_bp = Blueprint('products', __name__)
 bucket_name = "products-img"

@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>solare</title>
+    
+    <title>Solare</title>
 
-    <link rel="stylesheet" href="./styles/header.css">
-    <link rel="stylesheet" href="./styles/catalogo.css">
-    <link rel="stylesheet" href="./styles/footer.css">
+    <link rel="stylesheet" href="./static/styles/header.css">
+    <link rel="stylesheet" href="./static/styles/catalogo.css">
+    <link rel="stylesheet" href="./static/styles/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-yJX4Vd9NxdEiCl2K/7/8fYa6OdwvO/vKb2xke+OKkH9P1nDkQ0DbHFS5Z0H8Of7CSX8XzYH8+V9TZbD4A9O9TA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
     <header class="header">
         <div class="logo">
-            <img src="./img/geral/logo.png" alt="logo">
+            <img src="./static/img/geral/logo.png" alt="logo"/> 
         </div>
 
         <h1 class="titulo">solare</h1>
@@ -22,6 +24,12 @@
             <a href="https://web.whatsapp.com/send/?phone=5581995343400&text&type=phone_number&app_absent=0">   <i class="fa-brands fa-whatsapp fa-xl"></i></i>   </a>
         </div>
     </header>
+
+    <div class="barra-pesquisa-container">
+        <i class="fas fa-search lupa-icon"></i>
+        <input type="text" id="barra-pesquisa" placeholder="Buscar produto..." />
+    </div>
+
 
     <div class="filtros">
         <button class="botoes-filtros" data-category="anel">Anel</button>
@@ -36,9 +44,31 @@
 
     </div>  
     
-    <footer></footer>
+    <footer class="footer">
+        <p>Made by <strong>@Gustavo Lino</strong> — Todos os direitos reservados.</p>
+        <div class="footer-links">
+            <a href="https://github.com/GustavoLino728" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/gustavo-lino" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+        </div>
+    </footer>
 
-    <script type="module" src="./js/catalogo.js"></script>
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <img id="modalImage" src="" alt="Imagem do Produto" />
+            <h2 id="modalName"></h2>
+            <h3 id="modalPrice"></h3>
+            <p><strong>Descrição:</strong> <span id="modalDescription"></span></p>
+            <p><strong>Tamanho:</strong> <span id="modalSize"></span></p>
+            <p><strong>Cor:</strong> <span id="modalColor"></span></p>
+        </div>
+    </div>
+
+    <script src="./static/js/catalogo.js"></script>
     <script src="https://kit.fontawesome.com/826456405c.js" crossorigin="anonymous"></script>
 </body>
 </html>
