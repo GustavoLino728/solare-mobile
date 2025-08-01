@@ -21,7 +21,7 @@ body {
     color: white;
 }
 
-body > *:not(.header) {
+body > *:not(.header .modal-favoritos) {
   padding: 5px;
 }
 
@@ -354,4 +354,27 @@ body > *:not(.header) {
   color: #ff4081;
   cursor: pointer;
   user-select: none;
+}
+
+#whatsapp-btn {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 56px;
+  height: 56px;
+  background-color: #25d366;
+  border-radius: 50%;
+  display: none; /* aparece só quando há favoritos */
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#whatsapp-btn img {
+  width: 28px;
+  height: 28px;
+  margin: auto;
+  display: block;
 }
