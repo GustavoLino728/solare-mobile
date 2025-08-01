@@ -24,6 +24,25 @@
         </div>
     </header>
 
+    <!-- Overlay do modal -->
+    <div id="overlayFavoritos" class="overlay-favoritos">
+    <div class="modal-favoritos" onclick="event.stopPropagation()">
+        <div class="conteudo-favoritos">
+        <div class="header-favoritos">
+            <h3 class="titulo-favoritos">Seus Favoritos</h3>
+            <button class="limpar-favoritos" onclick="removerTodosFavoritos()">Remover todos</button>
+        </div>
+        <hr class="divisor-modal" />
+        <div id="listaFavoritos" class="grid-favoritos">
+            <!-- Itens adicionados dinamicamente aqui -->
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Botão flutuante (fora do overlay, abaixo no DOM!) -->
+    <button id="abrirFavoritos" class="botao-favoritos-flutuante" onclick="abrirModalFavoritos()">❤</button>
+
     <div class="barra-pesquisa-container">
         <i class="fas fa-search lupa-icon"></i>
         <input type="text" id="barra-pesquisa" placeholder="Buscar produto..." />
