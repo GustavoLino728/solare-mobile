@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Solare</title>
+    <link rel="shortcut icon" href="./img/geral/icone1.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./styles/header.css">
+    <link rel="stylesheet" href="./styles/catalogo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer"/>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="./img/geral/logo.png" alt="logo"/> 
+        </div>
+
+        <h1 class="titulo">solare</h1>
+
+        <div class="contato">
+            <a href="https://www.instagram.com/solareacoinox/">   <i class="fa-brands fa-instagram icones fa-xl"></i>  </a>   
+            <a href="https://web.whatsapp.com/send/?phone=5581995343400&text&type=phone_number&app_absent=0">   <i class="fa-brands fa-whatsapp fa-xl"></i></i>   </a>
+        </div>
+    </header>
+
+    <!-- Overlay do modal -->
+    <div id="overlayFavoritos" class="overlay-favoritos">
+    <div class="modal-favoritos" onclick="event.stopPropagation()">
+        <div class="conteudo-favoritos">
+        <div class="header-favoritos">
+            <h3 class="titulo-favoritos">Seus Favoritos</h3>
+            <button class="limpar-favoritos" onclick="removerTodosFavoritos()">Remover todos</button>
+        </div>
+        <hr class="divisor-modal" />
+        <div id="listaFavoritos" class="grid-favoritos">
+            <!-- Itens adicionados dinamicamente aqui -->
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Botão flutuante (fora do overlay, abaixo no DOM!) -->
+    <button id="abrirFavoritos" class="botao-favoritos-flutuante">❤</button>
+
+    <div class="barra-pesquisa-container">
+        <i class="fas fa-search lupa-icon"></i>
+        <input type="text" id="barra-pesquisa" placeholder="Buscar produto..." />
+    </div>
+
+
+    <div class="filtros">
+        <button class="botoes-filtros" data-category="anel">Anel</button>
+        <button class="botoes-filtros" data-category="bracelete">Bracelete</button>
+        <button class="botoes-filtros" data-category="brincos">Brincos</button>
+        <button class="botoes-filtros" data-category="colar">Colar</button>
+        <button class="botoes-filtros" data-category="pulseira">Pulseira</button>
+        <button class="botoes-filtros" data-category="tornozeleira">Tornozeleira</button>
+    </div>
+
+    <div class="container-produtos" id="container-produtos">
+
+    </div>  
+    
+    <footer class="footer">
+        <p>Made by <strong>@Gustavo Lino</strong> — Todos os direitos reservados.</p>
+        <div class="footer-links">
+            <a href="https://github.com/GustavoLino728" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/gustavo-lino" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+        </div>
+    </footer>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <img id="modalImage" src="" alt="Imagem do Produto" />
+            <h2 id="modalName"></h2>
+            <h3 id="modalPrice"></h3>
+            <p><strong>Descrição:</strong> <span id="modalDescription"></span></p>
+            <p><strong>Tamanho:</strong> <span id="modalSize"></span></p>
+            <p><strong>Cor:</strong> <span id="modalColor"></span></p>
+        </div>
+    </div>
+
+    <a id="whatsapp-btn" href="#" target="_blank" aria-label="Enviar pelo WhatsApp">
+        <img src="img/geral/whatsapp_icon.png" alt="WhatsApp" />
+    </a>
+
+    <script type="module" src="./js/catalogo.js"></script>
+    <script src="https://kit.fontawesome.com/826456405c.js" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -159,6 +159,17 @@ const botaoAbrir = document.getElementById("abrirFavoritos");
 const botaoLimpar = document.querySelector(".limpar-favoritos");
 
 botaoAbrir.addEventListener("click", () => {
+    const whatsappBtn = document.getElementById("whatsapp-btn");
+
+    function gerarMensagemWhatsApp(produtosFavoritos) {
+        let mensagem = "Olá! Tenho interesse nestes produtos:\n\n";
+        produtosFavoritos.forEach((p, index) => {
+            mensagem += `${index + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}\n`;
+        });
+        mensagem += "\nPoderia me ajudar?";
+        return encodeURIComponent(mensagem);
+    }
+
     const favoritos = getFavoritos();
     listaFavoritos.innerHTML = "";
 
@@ -168,6 +179,12 @@ botaoAbrir.addEventListener("click", () => {
 
     if (produtosFavoritos.length === 0) {
         listaFavoritos.innerHTML = `<p style="padding: 1rem;">Nenhum favorito encontrado.</p>`;
+        whatsappBtn.style.display = "none";
+    } else {
+        whatsappBtn.style.display = "block";
+        const msg = gerarMensagemWhatsApp(produtosFavoritos);
+        const numero = "5581995343400"; // substitua pelo seu número
+        whatsappBtn.href = `https://wa.me/${numero}?text=${msg}`;
     }
 
     produtosFavoritos.forEach(produto => {
@@ -189,8 +206,8 @@ botaoAbrir.addEventListener("click", () => {
         item.querySelector(".icone-favorito grande").addEventListener("click", (e) => {
             e.stopPropagation();
             const id = produto.id.toString();
-            const favoritos = getFavoritos().filter(fav => fav !== id);
-            setFavoritos(favoritos);
+            const novosFavoritos = getFavoritos().filter(fav => fav !== id);
+            setFavoritos(novosFavoritos);
             atualizarExibicao();
             botaoAbrir.click();
         });
@@ -204,6 +221,8 @@ botaoAbrir.addEventListener("click", () => {
 botaoLimpar.addEventListener("click", () => {
     setFavoritos([]);
     overlayFavoritos.classList.remove("ativo");
+    const whatsappBtn = document.getElementById("whatsapp-btn");
+    whatsappBtn.style.display = "none";
     atualizarExibicao();
 });
 
@@ -211,6 +230,8 @@ botaoLimpar.addEventListener("click", () => {
 overlayFavoritos.addEventListener("click", (e) => {
     if (e.target === overlayFavoritos) {
         overlayFavoritos.classList.remove("ativo");
+        const whatsappBtn = document.getElementById("whatsapp-btn");
+        whatsappBtn.style.display = "none";
     }
 });
 
