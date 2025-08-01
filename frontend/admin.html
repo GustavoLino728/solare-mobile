@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel Admin - Produtos</title>
+  <link rel="stylesheet" href="./styles/admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nata+Sans:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <main class="container">
+
+    <h1 id="title">Painel de Administração - Produtos</h1>
+    <p><a href="#" id="logoutBtn">Logout</a></p>
+
+    <section class="form-section">
+      <h2>Adicionar Novo Produto</h2>
+      <form id="formAddProduct" enctype="multipart/form-data">
+        <label>Nome: <input type="text" name="name" required /></label>
+        <label>Categoria: <input type="text" name="category" required /></label>
+        <label>Preço: <input type="number" name="price" step="0.01" required /></label>
+        <label>Imagem: <input type="file" name="img" accept="image/*" required /></label>
+        <label>Descrição: <textarea name="description"></textarea></label>
+        <label>Tamanho: <input type="text" name="size" /></label>
+        <label>Cor: <input type="text" name="color" /></label>
+        <button type="submit">Adicionar Produto</button>
+      </form>
+    </section>
+
+    <section class="table-section">
+      <h2>Produtos Cadastrados</h2>
+      <table id="productsTable" aria-describedby="products-desc">
+        <thead>
+          <tr>
+            <th>Ativo</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço (R$)</th>
+            <th>Descrição</th>
+            <th>Tamanho</th>
+            <th>Cor</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- Modal Editar Produto -->
+  <div id="editModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-content">
+      <h2 id="editModalTitle">Editar Produto</h2>
+      <form id="formEditProduct" novalidate>
+        <input type="hidden" name="id" />
+
+        <label for="editName">Nome*</label>
+        <input type="text" id="editName" name="name" required />
+
+        <label for="editCategory">Categoria*</label>
+        <input type="text" id="editCategory" name="category" required />
+
+        <label for="editPrice">Preço (R$)*</label>
+        <input type="number" id="editPrice" name="price" step="0.01" min="0" required />
+
+        <label for="editImg">Imagem*</label>
+        <input type="file" id="editImg" name="img" accept="image/*" required />
+
+
+        <label for="editDescription">Descrição</label>
+        <textarea id="editDescription" name="description" rows="3"></textarea>
+
+        <label for="editSize">Tamanho</label>
+        <input type="text" id="editSize" name="size" />
+
+        <label for="editColor">Cor</label>
+        <input type="text" id="editColor" name="color" />
+
+        <div class="modal-buttons">
+          <button type="submit" class="btn-primary">Salvar</button>
+          <button type="button" id="cancelEdit" class="btn-secondary">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="./js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+/*
+paleta
+cor principal: #99b38f
+botão ativo: #546D4A
+
+*/
+@font-face {
+    font-family: 'AthachantrTrial-Regular', sans-serif;
+    src: url('../font/AthachantrTrial-Regular.otf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #f9f9f9;
+    color: white;
+}
+
+body > *:not(.header) {
+  padding: 5px;
+}
+
+.barra-pesquisa-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 5px;
+}
+
+#barra-pesquisa {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px 12px 40px; 
+  border: 2px solid #99b38f;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#barra-pesquisa::placeholder {
+  color: #aaa;
+}
+
+#barra-pesquisa:focus {
+  outline: none;
+  border-color: #7e976f;
+  box-shadow: 0 0 0 3px rgba(153, 179, 143, 0.3);
+}
+
+.lupa-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #99b38f;
+  font-size: 18px;
+}
+
+
+.filtros{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 15px;
+    background-color: rgba(235, 233, 233, 0.733);
+}
+
+.botoes-filtros{
+    background-color: #99b38f;
+    color: black;
+    stroke: none;
+    text-decoration: none;
+    padding: 4px;
+    font-size: 18px;
+    font-family: AthachantrTrial-Regular;
+    border: 0.1px solid black;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
+.botoes-filtros.ativo {
+    background-color: #546D4A; 
+    font-weight: bold;
+    color: white; 
+}
+
+.container-produtos{
+    background-color: rgba(235, 233, 233, 0.733);
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 20px;
+}
+
+.produto-itens:not(p){
+  background-color: #99b38f;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  border: 0.1px solid #e2e8f0;
+}
+
+.produto-itens img {
+    width: 100%;
+    height: 180px; 
+    border-radius: 8px;
+    object-fit: cover;  
+}
+
+.produto-price {
+    display: inline;
+}
+
+.produto-itens h3 {
+    font-size: 26px;
+  }
+  
+.produto-itens p {
+    color: white;
+    font-weight: bold;
+}
+
+/* Modal Produtos */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #99b38f;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  padding: 20px 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+#modalImage {
+  max-width: 100%;
+  max-height: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+#modalName {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+#modalPrice {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #305820;
+}
+
+.modal-content p {
+  font-size: 1.1rem;
+  margin: 8px 0;
+  text-align: left;
+}
+
+.footer {
+  background-color: #7a9470;
+  color: #f9f9f9;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+  border-top: 2px solid #99b38f;
+}
+
+.footer strong {
+  color: #ffffff;
+}
+
+.footer-links {
+  margin-top: 10px;
+}
+
+.footer-links a {
+  color: #f9f9f9;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #99b38f;
+}
+
+.footer-links a i {
+  margin-right: 6px;
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+/* Favoritos */
+.botao-favoritos {
+  display: none; /* escondido se substituído pelo botão flutuante */
+}
+
+/* Botão flutuante */
+.botao-favoritos-flutuante {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ff4081;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.botao-favoritos-flutuante:hover {
+  background-color: #e91e63;
+}
+
+/* Overlay acinzentado */
+.overlay-favoritos {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4); /* fundo escuro translúcido */
+  z-index: 998;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+/* Modal de favoritos */
+.modal-favoritos {
+  background: #fff;
+  width: 100%;
+  height: 70%;
+  border-top: 2px solid #ccc;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.titulo-favoritos{
+  color: black;
+}
+
+/* Quando ativado */
+.overlay-favoritos.ativo {
+  display: flex;
+}
+
+.overlay-favoritos.ativo .modal-favoritos {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.overlay-favoritos.ativo ~ .botao-favoritos-flutuante {
+  display: none;
+}
+
+/* Conteúdo interno */
+.conteudo-favoritos {
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.header-favoritos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.limpar-favoritos {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.divisor-modal {
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+  margin: 0 0 10px 0;
+}
+
+.grid-favoritos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-favoritos .produto-itens {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Preço e coração na mesma linha */
+.linha-preco-favorito {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+/* Coração grande dentro do modal */
+.icone-favorito {
+  font-size: 25px;
+  color: #ff4081;
+  cursor: pointer;
+  user-select: none;
+}
