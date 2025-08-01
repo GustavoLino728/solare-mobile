@@ -186,7 +186,7 @@ botaoAbrir.addEventListener("click", () => {
         item.querySelector("img").addEventListener("click", () => openProductModal(produto));
         item.querySelector(".produto-itens").addEventListener("click", () => openProductModal(produto));
 
-        item.querySelector(".icone-favorito").addEventListener("click", (e) => {
+        item.querySelector(".icone-favorito.grande").addEventListener("click", (e) => {
             e.stopPropagation();
             const id = produto.id.toString();
             const favoritos = getFavoritos().filter(fav => fav !== id);
