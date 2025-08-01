@@ -2,6 +2,30 @@ import { API_URL } from "./config.js";
 let filtroAtual = "todos";
 let produtosOriginais = [];
 
+// --- Favoritos ---
+function getFavoritos() {
+    return JSON.parse(localStorage.getItem("favoritos")) || [];
+}
+
+function setFavoritos(lista) {
+    localStorage.setItem("favoritos", JSON.stringify(lista));
+}
+
+function isFavorito(id) {
+    return getFavoritos().includes(id);
+}
+
+function toggleFavorito(id) {
+    let favoritos = getFavoritos();
+    if (favoritos.includes(id)) {
+        favoritos = favoritos.filter(fav => fav !== id);
+    } else {
+        favoritos.push(id);
+    }
+    setFavoritos(favoritos);
+}
+
+// --- Buscar produtos ---
 async function buscarProdutos() {
     try {
         const response = await fetch(`${API_URL}/products`);
@@ -73,18 +97,29 @@ function exibirProdutos(produtosFiltrados) {
         item.setAttribute("data-category", produto.category);
         item.setAttribute("data-id", produto.id);
 
+        const coracao = isFavorito(produto.id.toString()) ? "♥" : "♡";
+
         item.innerHTML = `
             <img src="${produto.img}" alt="${produto.name}">
             <p class="produto-itens">${produto.name}</p>
-            <p>R$${parseFloat(produto.price).toFixed(2)}</p>
+            <div class="linha-preco-favorito">
+                <p class="produto-price">R$${parseFloat(produto.price).toFixed(2)}</p>
+                <span class="icone-favorito" data-id="${produto.id}">${coracao}</span>
+            </div>
         `;
+
+        item.querySelector(".icone-favorito").addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleFavorito(produto.id.toString());
+            atualizarExibicao();
+        });
 
         item.addEventListener("click", () => openProductModal(produto));
         container.appendChild(item);
     });
 }
 
-// Modal
+// --- Modal de Produto ---
 const productModal = document.getElementById('productModal');
 const closeModalBtn = document.getElementById('closeModal');
 const modalImage = document.getElementById('modalImage');
@@ -117,6 +152,69 @@ window.onclick = (event) => {
     }
 };
 
+// --- Modal de Favoritos ---
+const overlayFavoritos = document.getElementById("overlayFavoritos");
+const listaFavoritos = document.getElementById("listaFavoritos");
+const botaoAbrir = document.getElementById("abrirFavoritos");
+const botaoLimpar = document.querySelector(".limpar-favoritos");
+
+botaoAbrir.addEventListener("click", () => {
+    const favoritos = getFavoritos();
+    listaFavoritos.innerHTML = "";
+
+    const produtosFavoritos = produtosOriginais.filter(p =>
+        favoritos.includes(p.id.toString())
+    );
+
+    if (produtosFavoritos.length === 0) {
+        listaFavoritos.innerHTML = `<p style="padding: 1rem;">Nenhum favorito encontrado.</p>`;
+    }
+
+    produtosFavoritos.forEach(produto => {
+        const item = document.createElement("div");
+        item.classList.add("produto-itens");
+
+        item.innerHTML = `
+            <img src="${produto.img}" alt="${produto.name}">
+            <p class="produto-itens">${produto.name}</p>
+            <div class="linha-preco-favorito">
+                <p class="produto-price">R$${parseFloat(produto.price).toFixed(2)}</p>
+                <span class="icone-favorito grande" data-id="${produto.id}">❤</span>
+            </div>
+        `;
+
+        item.querySelector("img").addEventListener("click", () => openProductModal(produto));
+        item.querySelector(".produto-itens").addEventListener("click", () => openProductModal(produto));
+
+        item.querySelector(".icone-favorito").addEventListener("click", (e) => {
+            e.stopPropagation();
+            const id = produto.id.toString();
+            const favoritos = getFavoritos().filter(fav => fav !== id);
+            setFavoritos(favoritos);
+            atualizarExibicao();
+            botaoAbrir.click();
+        });
+
+        listaFavoritos.appendChild(item);
+    });
+
+    overlayFavoritos.classList.add("ativo");
+});
+
+botaoLimpar.addEventListener("click", () => {
+    setFavoritos([]);
+    overlayFavoritos.classList.remove("ativo");
+    atualizarExibicao();
+});
+
+// Fechar ao clicar fora do modal
+overlayFavoritos.addEventListener("click", (e) => {
+    if (e.target === overlayFavoritos) {
+        overlayFavoritos.classList.remove("ativo");
+    }
+});
+
+// --- Inicialização ---
 window.onload = async () => {
     produtosOriginais = await buscarProdutos();
     exibirProdutos(produtosOriginais);
