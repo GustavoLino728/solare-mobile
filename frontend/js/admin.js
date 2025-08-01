@@ -54,7 +54,15 @@ async function loadProducts() {
 
     products.forEach(p => {
       const tr = document.createElement('tr');
+
+      if (!p.is_active) {
+          tr.classList.add("inactive-row");
+      }
+      
       tr.innerHTML = `
+        <td data-label="Ativo">
+            <input type="checkbox" class="product-active-checkbox" data-id="${p.id}" ${p.is_active ? 'checked' : ''} />
+        </td>
         <td data-label="ID">${p.id}</td>
         <td data-label="Nome">${p.name}</td>
         <td data-label="Categoria">${p.category}</td>
@@ -66,9 +74,42 @@ async function loadProducts() {
           <button type="button" onclick="editProduct(${p.id})">Editar</button>
           <button type="button" onclick="deleteProduct(${p.id})">Excluir</button>
         </td>
+        
       `;
       tbody.appendChild(tr);
     });
+
+    // Adiciona botão "Atualizar Status de Produtos" após a tabela
+    const updateBtn = document.createElement('button');
+    updateBtn.textContent = 'Atualizar Status de Produtos';
+    updateBtn.classList.add('btn-primary');
+    updateBtn.style.marginTop = '1rem';
+    updateBtn.id = 'updateActiveStatus';
+
+    updateBtn.addEventListener('click', async () => {
+      const checkboxes = document.querySelectorAll('.product-active-checkbox');
+      const updates = Array.from(checkboxes).map(cb => ({
+        id: parseInt(cb.dataset.id),
+        is_active: cb.checked
+      }));
+
+      try {
+        const res = await fetch(`${API_URL}/products/update-active`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ updates })
+        });
+
+        if (!res.ok) throw new Error('Erro ao atualizar status');
+        alert('Status de produtos atualizado com sucesso!');
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    document.querySelector('#productsTable').after(updateBtn);
+
   } catch (error) {
     alert(`Erro ao carregar produtos: ${error.message}`);
   }
@@ -195,7 +236,6 @@ window.onload = async () => {
   const loggedIn = await checkAdmin();
   if (loggedIn) loadProducts();
 
-  // Adiciona o listener para logout se houver botão
   const logoutBtn = document.getElementById('logoutBtn');
   if(logoutBtn) {
     logoutBtn.addEventListener('click', async (e) => {

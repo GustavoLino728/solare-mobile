@@ -17,14 +17,14 @@ def sanitize_product_name(name: str) -> str:
 
 @products_bp.route('/api/products', methods=['GET'])
 def get_products():
-    response = supabase.table('products').select('*').execute()
+    response = supabase.table('products').select('*').neq('is_active', False).execute()
     if getattr(response, "status_code", 200) >= 400 or not getattr(response, "data", None):
         return jsonify([]), 200
     return jsonify(response.data)
 
 @products_bp.route('/api/products/<id>', methods=['GET'])
 def get_product_by_id(id):
-    response = supabase.table('products').select('*').eq('id', id).execute()
+    response = supabase.table('products').select('*').eq('id', id).neq('is_active', False).execute()
     if getattr(response, "status_code", 200) >= 400 or not getattr(response, "data", None):
         return jsonify({"message": "Produto não encontrado"}), 404
     return jsonify(response.data[0])
@@ -40,6 +40,7 @@ def create_product():
 
     name = request.form.get('name')
     category = request.form.get('category')
+    category = category.lower()
     price = request.form.get('price')
 
     if not all([name, category, price]):
@@ -181,6 +182,16 @@ def update_product(id):
         return jsonify({"message": "Erro ao atualizar produto"}), 500
 
     return jsonify({"message": "Produto atualizado com sucesso"}), 200
+
+@products_bp.route('/api/products/update-active', methods=['PUT'])
+def update_product_active():
+    data = request.get_json()
+    updates = data.get('updates', [])
+
+    for u in updates:
+        supabase.table("products").update({"is_active": u["is_active"]}).eq("id", u["id"]).execute()
+
+    return {"success": True}, 200
 
 @products_bp.route('/api/products/<int:id>', methods=['DELETE'])
 def delete_product(id):

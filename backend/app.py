@@ -18,9 +18,9 @@ CORS(app,origins=["http://127.0.0.1:5500", "http://localhost:5500", "https://sol
 app.register_blueprint(products_bp)
 app.register_blueprint(login_bp)
 
-@app.route("/api/ping")
+@app.route("/api/ping", methods=['GET'])
 def ping():
-    return "pong", 200
+    return "pong", 200, {"Content-Type": "text/plain"}
 
 if __name__ == '__main__':
     app.run(debug=True)

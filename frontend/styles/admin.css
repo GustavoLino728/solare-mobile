@@ -30,6 +30,11 @@ h1, h2 {
   box-shadow: 0 0 6px rgb(0 0 0 / 0.1);
 }
 
+.inactive-row {
+  opacity: 0.4;
+  background-color: #f0f0f0; /* cinza claro opcional */
+}
+
 form label {
   display: block;
   margin-bottom: 0.25rem;

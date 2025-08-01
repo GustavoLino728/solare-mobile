@@ -21,6 +21,10 @@ body {
     color: white;
 }
 
+body > *:not(.header) {
+  padding: 5px;
+}
+
 .barra-pesquisa-container {
   position: relative;
   display: flex;
