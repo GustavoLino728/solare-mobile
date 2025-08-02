@@ -40,6 +40,7 @@ def create_product():
 
     name = request.form.get('name')
     category = request.form.get('category')
+    category = category.lower()
     price = request.form.get('price')
 
     if not all([name, category, price]):
@@ -181,7 +182,6 @@ def update_product(id):
         return jsonify({"message": "Erro ao atualizar produto"}), 500
 
     return jsonify({"message": "Produto atualizado com sucesso"}), 200
-
 
 @products_bp.route('/api/products/update-active', methods=['PUT'])
 def update_product_active():

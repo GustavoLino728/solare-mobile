@@ -21,6 +21,7 @@ body {
     color: white;
 }
 
+
 body > *:not(.header .modal-favoritos) {
   padding: 5px;
 }
@@ -30,7 +31,6 @@ body > *:not(.header .modal-favoritos) {
   display: flex;
   justify-content: center;
   margin: 20px 0;
-  padding: 5px;
 }
 
 #barra-pesquisa {
@@ -357,8 +357,8 @@ body > *:not(.header .modal-favoritos) {
 }
 
 #whatsapp-btn {
-  position: fixed;
-  bottom: 16px;
+  position: absolute;
+  bottom: 20px;
   right: 16px;
   width: 56px;
   height: 56px;
@@ -377,4 +377,112 @@ body > *:not(.header .modal-favoritos) {
   height: 28px;
   margin: auto;
   display: block;
+}
+.botao-ajuda-flutuante {
+  position: fixed;
+  bottom: 20px;
+  left: 20px; /* canto inferior esquerdo */
+  background-color: #305820;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+  padding: 5px;
+}
+
+.botao-ajuda-flutuante img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.botao-ajuda-flutuante:hover {
+  background-color: #223c15;
+}
+
+/* Overlay Ajuda */
+.overlay-ajuda {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 998;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+/* Modal Ajuda */
+.modal-ajuda {
+  background: #fff;
+  width: 100%;
+  height: 70%;
+  border-top: 2px solid #ccc;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  color: black;
+  padding: 1rem;
+}
+
+/* Quando ativo */
+.overlay-ajuda.ativo {
+  display: flex;
+}
+
+.overlay-ajuda.ativo .modal-ajuda {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.conteudo-ajuda {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.header-ajuda {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.titulo-ajuda {
+  color: #305820;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.fechar-ajuda {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.faq-conteudo h4 {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.faq-conteudo p {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.botao-favoritos-flutuante,
+.botao-ajuda-flutuante {
+  z-index: 9999; 
 }

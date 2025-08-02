@@ -26,18 +26,21 @@
 
     <!-- Overlay do modal -->
     <div id="overlayFavoritos" class="overlay-favoritos">
-    <div class="modal-favoritos" onclick="event.stopPropagation()">
-        <div class="conteudo-favoritos">
-        <div class="header-favoritos">
-            <h3 class="titulo-favoritos">Seus Favoritos</h3>
-            <button class="limpar-favoritos" onclick="removerTodosFavoritos()">Remover todos</button>
+        <div class="modal-favoritos" onclick="event.stopPropagation()">
+            <div class="conteudo-favoritos">
+                <div class="header-favoritos">
+                    <h3 class="titulo-favoritos">Seus Favoritos</h3>
+                    <button class="limpar-favoritos" onclick="removerTodosFavoritos()">Remover todos</button>
+                </div>
+                <hr class="divisor-modal" />
+                <div id="listaFavoritos" class="grid-favoritos">
+                
+                </div>
+                <a id="whatsapp-btn" href="#" target="_blank" aria-label="Enviar pelo WhatsApp">
+                    <img src="img/geral/whatsapp_icon.png" alt="WhatsApp" />
+                </a>
+            </div>
         </div>
-        <hr class="divisor-modal" />
-        <div id="listaFavoritos" class="grid-favoritos">
-            <!-- Itens adicionados dinamicamente aqui -->
-        </div>
-        </div>
-    </div>
     </div>
 
     <!-- Botão flutuante (fora do overlay, abaixo no DOM!) -->
@@ -86,9 +89,6 @@
         </div>
     </div>
 
-    <a id="whatsapp-btn" href="#" target="_blank" aria-label="Enviar pelo WhatsApp">
-        <img src="img/geral/whatsapp_icon.png" alt="WhatsApp" />
-    </a>
 
     <script type="module" src="./js/catalogo.js"></script>
     <script src="https://kit.fontawesome.com/826456405c.js" crossorigin="anonymous"></script>

@@ -1,0 +1,27 @@
+header {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    background-color: #99b38f;
+    margin-bottom: 20px;
+    justify-items: center;
+    align-items: last baseline;
+    padding: 5px 0px 5px 0px;
+}
+
+.logo{
+   padding-right: 20px;
+}
+
+.titulo{
+    font-family: 'AthachantrTrial-Regular';
+}
+
+.contato{
+    display: flex;
+    gap: 15px;
+
+}
+
+i {
+    color: white;
+}

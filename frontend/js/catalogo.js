@@ -149,27 +149,39 @@ closeModalBtn.onclick = () => {
 window.onclick = (event) => {
     if (event.target === productModal) {
         productModal.style.display = 'none';
+    } else if (event.target === overlayAjuda) {
+        overlayAjuda.classList.remove("ativo");
+        mostrarBotoesFlutuantes();
+    } else if (event.target === overlayFavoritos) {
+        overlayFavoritos.classList.remove("ativo");
+        whatsappBtn.style.display = "none"; // ESCONDE ao fechar modal
+        mostrarBotoesFlutuantes();
     }
 };
+
+// --- Botões Flutuantes ---
+function ocultarBotoesFlutuantes() {
+    botaoAjuda.style.display = "none";
+    botaoAbrir.style.display = "none";
+    whatsappBtn.style.display = "none";
+}
+
+function mostrarBotoesFlutuantes() {
+    botaoAjuda.style.display = "flex";
+    botaoAbrir.style.display = "flex";
+    if (getFavoritos().length > 0) {
+        whatsappBtn.style.display = "flex";
+    }
+}
 
 // --- Modal de Favoritos ---
 const overlayFavoritos = document.getElementById("overlayFavoritos");
 const listaFavoritos = document.getElementById("listaFavoritos");
 const botaoAbrir = document.getElementById("abrirFavoritos");
 const botaoLimpar = document.querySelector(".limpar-favoritos");
+const whatsappBtn = document.getElementById("whatsapp-btn"); // já seleciona o botão WhatsApp
 
 botaoAbrir.addEventListener("click", () => {
-    const whatsappBtn = document.getElementById("whatsapp-btn");
-
-    function gerarMensagemWhatsApp(produtosFavoritos) {
-        let mensagem = "Olá! Tenho interesse nestes produtos:\n\n";
-        produtosFavoritos.forEach((p, index) => {
-            mensagem += `${index + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}\n`;
-        });
-        mensagem += "\nPoderia me ajudar?";
-        return encodeURIComponent(mensagem);
-    }
-
     const favoritos = getFavoritos();
     listaFavoritos.innerHTML = "";
 
@@ -181,9 +193,15 @@ botaoAbrir.addEventListener("click", () => {
         listaFavoritos.innerHTML = `<p style="padding: 1rem;">Nenhum favorito encontrado.</p>`;
         whatsappBtn.style.display = "none";
     } else {
-        whatsappBtn.style.display = "block";
-        const msg = gerarMensagemWhatsApp(produtosFavoritos);
-        const numero = "5581995343400"; // substitua pelo seu número
+        console.log("Mostrando botão WhatsApp");
+        whatsappBtn.style.display = "flex"; // mostra só aqui dentro do modal
+        let mensagem = "Olá! Tenho interesse nestes produtos:\n\n";
+        produtosFavoritos.forEach((p, index) => {
+            mensagem += `${index + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}\n`;
+        });
+        mensagem += "\nPoderia me ajudar?";
+        const msg = encodeURIComponent(mensagem);
+        const numero = "5581995343400";
         whatsappBtn.href = `https://wa.me/${numero}?text=${msg}`;
     }
 
@@ -203,7 +221,7 @@ botaoAbrir.addEventListener("click", () => {
         item.querySelector("img").addEventListener("click", () => openProductModal(produto));
         item.querySelector(".produto-itens").addEventListener("click", () => openProductModal(produto));
 
-        item.querySelector(".icone-favorito grande").addEventListener("click", (e) => {
+        item.querySelector(".icone-favorito.grande").addEventListener("click", (e) => {
             e.stopPropagation();
             const id = produto.id.toString();
             const novosFavoritos = getFavoritos().filter(fav => fav !== id);
@@ -216,29 +234,65 @@ botaoAbrir.addEventListener("click", () => {
     });
 
     overlayFavoritos.classList.add("ativo");
+    ocultarBotoesFlutuantes();
 });
 
 botaoLimpar.addEventListener("click", () => {
     setFavoritos([]);
     overlayFavoritos.classList.remove("ativo");
-    const whatsappBtn = document.getElementById("whatsapp-btn");
     whatsappBtn.style.display = "none";
     atualizarExibicao();
+    mostrarBotoesFlutuantes();
 });
 
-// Fechar ao clicar fora do modal
-overlayFavoritos.addEventListener("click", (e) => {
-    if (e.target === overlayFavoritos) {
-        overlayFavoritos.classList.remove("ativo");
-        const whatsappBtn = document.getElementById("whatsapp-btn");
-        whatsappBtn.style.display = "none";
-    }
+// --- Modal de Ajuda (FAQ) ---
+const overlayAjuda = document.createElement("div");
+overlayAjuda.id = "overlayAjuda";
+overlayAjuda.className = "overlay-ajuda";
+overlayAjuda.innerHTML = `
+  <div class="modal-ajuda" onclick="event.stopPropagation()">
+    <div class="conteudo-ajuda">
+      <div class="header-ajuda">
+        <h3 class="titulo-ajuda">Como podemos ajudar?</h3>
+        <button class="fechar-ajuda" id="fecharAjuda">Fechar</button>
+      </div>
+      <hr class="divisor-modal" />
+      <div class="faq-conteudo">
+        <h4>Quem Somos?</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h4>Entregas</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h4>Dúvidas</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h4>Onde Encontrar</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+  </div>
+`;
+document.body.appendChild(overlayAjuda);
+
+const botaoAjuda = document.createElement("button");
+botaoAjuda.id = "botaoAjuda";
+botaoAjuda.className = "botao-ajuda-flutuante";
+botaoAjuda.innerHTML = `<img src="./img/geral/logo.png" alt="Ajuda" />`;
+
+botaoAjuda.addEventListener("click", () => {
+  overlayAjuda.classList.add("ativo");
+  ocultarBotoesFlutuantes();
 });
 
-// --- Inicialização ---
-window.onload = async () => {
+document.body.appendChild(botaoAjuda);
+
+document.getElementById("fecharAjuda").addEventListener("click", () => {
+  overlayAjuda.classList.remove("ativo");
+  mostrarBotoesFlutuantes();
+});
+
+// --- Inicialização ao carregar a página ---
+document.addEventListener("DOMContentLoaded", async () => {
     produtosOriginais = await buscarProdutos();
-    exibirProdutos(produtosOriginais);
+    atualizarExibicao();
     configurarFiltros();
     configurarPesquisa();
-};
+});
