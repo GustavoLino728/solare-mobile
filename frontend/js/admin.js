@@ -54,6 +54,11 @@ async function loadProducts() {
 
     products.forEach(p => {
       const tr = document.createElement('tr');
+
+      if (!p.is_active) {
+          tr.classList.add("inactive-row");
+      }
+      
       tr.innerHTML = `
         <td data-label="Ativo">
             <input type="checkbox" class="product-active-checkbox" data-id="${p.id}" ${p.is_active ? 'checked' : ''} />
