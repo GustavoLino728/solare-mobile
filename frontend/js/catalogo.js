@@ -154,7 +154,7 @@ window.onclick = (event) => {
         mostrarBotoesFlutuantes();
     } else if (event.target === overlayFavoritos) {
         overlayFavoritos.classList.remove("ativo");
-        whatsappBtn.style.display = "none"; // ESCONDE ao fechar modal
+        whatsappBtn.style.display = "none";
         mostrarBotoesFlutuantes();
     }
 };
@@ -179,7 +179,7 @@ const overlayFavoritos = document.getElementById("overlayFavoritos");
 const listaFavoritos = document.getElementById("listaFavoritos");
 const botaoAbrir = document.getElementById("abrirFavoritos");
 const botaoLimpar = document.querySelector(".limpar-favoritos");
-const whatsappBtn = document.getElementById("whatsapp-btn"); // já seleciona o botão WhatsApp
+const whatsappBtn = document.getElementById("whatsapp-btn");
 
 botaoAbrir.addEventListener("click", () => {
     const favoritos = getFavoritos();
@@ -193,8 +193,7 @@ botaoAbrir.addEventListener("click", () => {
         listaFavoritos.innerHTML = `<p style="padding: 1rem;">Nenhum favorito encontrado.</p>`;
         whatsappBtn.style.display = "none";
     } else {
-        console.log("Mostrando botão WhatsApp");
-        whatsappBtn.style.display = "flex"; // mostra só aqui dentro do modal
+        whatsappBtn.style.display = "flex";
         let mensagem = "Olá! Tenho interesse nestes produtos:\n\n";
         produtosFavoritos.forEach((p, index) => {
             mensagem += `${index + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}\n`;
@@ -278,15 +277,15 @@ botaoAjuda.className = "botao-ajuda-flutuante";
 botaoAjuda.innerHTML = `<img src="./img/geral/logo.png" alt="Ajuda" />`;
 
 botaoAjuda.addEventListener("click", () => {
-  overlayAjuda.classList.add("ativo");
-  ocultarBotoesFlutuantes();
+    overlayAjuda.classList.add("ativo");
+    ocultarBotoesFlutuantes();
 });
 
 document.body.appendChild(botaoAjuda);
 
 document.getElementById("fecharAjuda").addEventListener("click", () => {
-  overlayAjuda.classList.remove("ativo");
-  mostrarBotoesFlutuantes();
+    overlayAjuda.classList.remove("ativo");
+    mostrarBotoesFlutuantes();
 });
 
 // --- Inicialização ao carregar a página ---
