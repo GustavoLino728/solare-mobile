@@ -149,14 +149,56 @@ closeModalBtn.onclick = () => {
 window.onclick = (event) => {
     if (event.target === productModal) {
         productModal.style.display = 'none';
+    } else if (event.target === overlayAjuda) {
+        overlayAjuda.classList.remove("ativo");
+        mostrarBotoesFixos();
+    } else if (event.target === overlayFavoritos) {
+        overlayFavoritos.classList.remove("ativo");
+        mostrarBotoesFixos();
     }
 };
+
+// --- Botões fixos ---
+function mostrarBotoesFixos() {
+    document.querySelector(".barra-botoes-fixos").style.display = "flex";
+    const favoritos = getFavoritos();
+
+    const produtosFavoritos = produtosOriginais.filter(p =>
+        favoritos.includes(p.id.toString())
+    );
+
+    if (produtosFavoritos.length === 0) {
+        whatsappBtn.disabled = true;
+        whatsappBtn.onclick = null;
+    } else {
+        whatsappBtn.style.display = "flex";
+        whatsappBtn.disabled = false;
+
+        const mensagem = encodeURIComponent(
+            "Olá! Tenho interesse nestes produtos:\n\n" +
+            produtosFavoritos.map((p, i) =>
+                `${i + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}`
+            ).join("\n") +
+            "\n\nPoderia me ajudar?"
+        );
+
+        const numero = "5581995343400";
+        const link = `https://wa.me/${numero}?text=${mensagem}`;
+
+        whatsappBtn.onclick = () => window.open(link, '_blank');
+    }
+}
+
+function ocultarBotoesFixos() {
+    document.querySelector(".barra-botoes-fixos").style.display = "none";
+}
 
 // --- Modal de Favoritos ---
 const overlayFavoritos = document.getElementById("overlayFavoritos");
 const listaFavoritos = document.getElementById("listaFavoritos");
 const botaoAbrir = document.getElementById("abrirFavoritos");
 const botaoLimpar = document.querySelector(".limpar-favoritos");
+const whatsappBtn = document.getElementById("whatsapp-btn");
 
 botaoAbrir.addEventListener("click", () => {
     const favoritos = getFavoritos();
@@ -165,10 +207,6 @@ botaoAbrir.addEventListener("click", () => {
     const produtosFavoritos = produtosOriginais.filter(p =>
         favoritos.includes(p.id.toString())
     );
-
-    if (produtosFavoritos.length === 0) {
-        listaFavoritos.innerHTML = `<p style="padding: 1rem;">Nenhum favorito encontrado.</p>`;
-    }
 
     produtosFavoritos.forEach(produto => {
         const item = document.createElement("div");
@@ -189,8 +227,8 @@ botaoAbrir.addEventListener("click", () => {
         item.querySelector(".icone-favorito.grande").addEventListener("click", (e) => {
             e.stopPropagation();
             const id = produto.id.toString();
-            const favoritos = getFavoritos().filter(fav => fav !== id);
-            setFavoritos(favoritos);
+            const novosFavoritos = getFavoritos().filter(fav => fav !== id);
+            setFavoritos(novosFavoritos);
             atualizarExibicao();
             botaoAbrir.click();
         });
@@ -199,25 +237,37 @@ botaoAbrir.addEventListener("click", () => {
     });
 
     overlayFavoritos.classList.add("ativo");
+    ocultarBotoesFixos();
 });
 
 botaoLimpar.addEventListener("click", () => {
     setFavoritos([]);
     overlayFavoritos.classList.remove("ativo");
     atualizarExibicao();
+    mostrarBotoesFixos();
 });
 
-// Fechar ao clicar fora do modal
-overlayFavoritos.addEventListener("click", (e) => {
-    if (e.target === overlayFavoritos) {
-        overlayFavoritos.classList.remove("ativo");
-    }
+// --- Modal de Ajuda (FAQ) ---
+const overlayAjuda = document.getElementById("overlayAjuda");
+const botaoAjuda = document.getElementById("botaoAjuda");
+
+// Evento abrir modal ajuda
+botaoAjuda.addEventListener("click", () => {
+    overlayAjuda.classList.add("ativo");
+    ocultarBotoesFixos();
 });
 
-// --- Inicialização ---
-window.onload = async () => {
+// Evento fechar modal ajuda
+document.getElementById("fecharAjuda").addEventListener("click", () => {
+    overlayAjuda.classList.remove("ativo");
+    mostrarBotoesFixos();
+});
+
+// --- Inicialização ao carregar a página ---
+document.addEventListener("DOMContentLoaded", async () => {
     produtosOriginais = await buscarProdutos();
-    exibirProdutos(produtosOriginais);
+    atualizarExibicao();
     configurarFiltros();
     configurarPesquisa();
-};
+    mostrarBotoesFixos();
+});
