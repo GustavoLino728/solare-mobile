@@ -23,7 +23,7 @@ def get_products():
     return jsonify(response.data)
 
 @products_bp.route('/api/all_products', methods=['GET'])
-def get_products():
+def get_all_products():
     response = supabase.table('products').select('*').execute()
     if getattr(response, "status_code", 200) >= 400 or not getattr(response, "data", None):
         return jsonify([]), 200
