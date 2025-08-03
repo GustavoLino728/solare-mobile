@@ -104,7 +104,7 @@ function exibirProdutos(produtosFiltrados) {
             <p class="produto-itens">${produto.name}</p>
             <div class="linha-preco-favorito">
                 <p class="produto-price">R$${parseFloat(produto.price).toFixed(2)}</p>
-                <span class="icone-favorito" data-id="${produto.id}">${coracao}</span>
+                <button class="icone-favorito" data-id="${produto.id}">${coracao}</button>
             </div>
         `;
 
@@ -167,26 +167,25 @@ function mostrarBotoesFixos() {
         favoritos.includes(p.id.toString())
     );
 
-    if (produtosFavoritos.length === 0) {
-        whatsappBtn.disabled = true;
-        whatsappBtn.onclick = null;
-    } else {
-        whatsappBtn.style.display = "flex";
-        whatsappBtn.disabled = false;
+whatsappBtn.onclick = () => {
+    const favoritosAtualizados = getFavoritos();
 
-        const mensagem = encodeURIComponent(
-            "Olá! Tenho interesse nestes produtos:\n\n" +
-            produtosFavoritos.map((p, i) =>
-                `${i + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}`
-            ).join("\n") +
-            "\n\nPoderia me ajudar?"
-        );
+    const produtosFavoritosAtualizados = produtosOriginais.filter(p =>
+        favoritosAtualizados.includes(p.id.toString())
+    );
 
-        const numero = "5581995343400";
-        const link = `https://wa.me/${numero}?text=${mensagem}`;
+    const mensagem = encodeURIComponent(
+        "Olá! Tenho interesse nestes produtos:\n\n" +
+        produtosFavoritosAtualizados.map((p, i) =>
+            `${i + 1}. ${p.name} - ID ${p.id} - R$${parseFloat(p.price).toFixed(2)}`
+        ).join("\n") +
+        "\n\nPoderia me ajudar?"
+    );
 
-        whatsappBtn.onclick = () => window.open(link, '_blank');
-    }
+    const numero = "5581995343400";
+    const link = `https://wa.me/${numero}?text=${mensagem}`;
+    window.open(link, '_blank');
+};
 }
 
 function ocultarBotoesFixos() {
@@ -198,6 +197,7 @@ const overlayFavoritos = document.getElementById("overlayFavoritos");
 const listaFavoritos = document.getElementById("listaFavoritos");
 const botaoAbrir = document.getElementById("abrirFavoritos");
 const botaoLimpar = document.querySelector(".limpar-favoritos");
+const botaoFecharFavoritos = document.getElementById("closeFavoritos");
 const whatsappBtn = document.getElementById("whatsapp-btn");
 
 botaoAbrir.addEventListener("click", () => {
@@ -247,6 +247,11 @@ botaoLimpar.addEventListener("click", () => {
     mostrarBotoesFixos();
 });
 
+document.getElementById("closeFavoritos").addEventListener("click", () => {
+    overlayFavoritos.classList.remove("ativo");
+    mostrarBotoesFixos();
+});
+
 // --- Modal de Ajuda (FAQ) ---
 const overlayAjuda = document.getElementById("overlayAjuda");
 const botaoAjuda = document.getElementById("botaoAjuda");
@@ -258,7 +263,7 @@ botaoAjuda.addEventListener("click", () => {
 });
 
 // Evento fechar modal ajuda
-document.getElementById("fecharAjuda").addEventListener("click", () => {
+document.getElementById("closeAjuda").addEventListener("click", () => {
     overlayAjuda.classList.remove("ativo");
     mostrarBotoesFixos();
 });
