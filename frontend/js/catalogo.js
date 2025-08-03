@@ -151,27 +151,46 @@ window.onclick = (event) => {
         productModal.style.display = 'none';
     } else if (event.target === overlayAjuda) {
         overlayAjuda.classList.remove("ativo");
-        mostrarBotoesFlutuantes();
+        mostrarBotoesFixos();
     } else if (event.target === overlayFavoritos) {
         overlayFavoritos.classList.remove("ativo");
-        whatsappBtn.style.display = "none";
-        mostrarBotoesFlutuantes();
+        mostrarBotoesFixos();
     }
 };
 
-// --- Botões Flutuantes ---
-function ocultarBotoesFlutuantes() {
-    botaoAjuda.style.display = "none";
-    botaoAbrir.style.display = "none";
-    whatsappBtn.style.display = "none";
+// --- Botões fixos ---
+function mostrarBotoesFixos() {
+    document.querySelector(".barra-botoes-fixos").style.display = "flex";
+    const favoritos = getFavoritos();
+
+    const produtosFavoritos = produtosOriginais.filter(p =>
+        favoritos.includes(p.id.toString())
+    );
+
+    if (produtosFavoritos.length === 0) {
+        whatsappBtn.disabled = true;
+        whatsappBtn.onclick = null;
+    } else {
+        whatsappBtn.style.display = "flex";
+        whatsappBtn.disabled = false;
+
+        const mensagem = encodeURIComponent(
+            "Olá! Tenho interesse nestes produtos:\n\n" +
+            produtosFavoritos.map((p, i) =>
+                `${i + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}`
+            ).join("\n") +
+            "\n\nPoderia me ajudar?"
+        );
+
+        const numero = "5581995343400";
+        const link = `https://wa.me/${numero}?text=${mensagem}`;
+
+        whatsappBtn.onclick = () => window.open(link, '_blank');
+    }
 }
 
-function mostrarBotoesFlutuantes() {
-    botaoAjuda.style.display = "flex";
-    botaoAbrir.style.display = "flex";
-    if (getFavoritos().length > 0) {
-        whatsappBtn.style.display = "flex";
-    }
+function ocultarBotoesFixos() {
+    document.querySelector(".barra-botoes-fixos").style.display = "none";
 }
 
 // --- Modal de Favoritos ---
@@ -188,21 +207,6 @@ botaoAbrir.addEventListener("click", () => {
     const produtosFavoritos = produtosOriginais.filter(p =>
         favoritos.includes(p.id.toString())
     );
-
-    if (produtosFavoritos.length === 0) {
-        listaFavoritos.innerHTML = `<p style="padding: 1rem;">Nenhum favorito encontrado.</p>`;
-        whatsappBtn.style.display = "none";
-    } else {
-        whatsappBtn.style.display = "flex";
-        let mensagem = "Olá! Tenho interesse nestes produtos:\n\n";
-        produtosFavoritos.forEach((p, index) => {
-            mensagem += `${index + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}\n`;
-        });
-        mensagem += "\nPoderia me ajudar?";
-        const msg = encodeURIComponent(mensagem);
-        const numero = "5581995343400";
-        whatsappBtn.href = `https://wa.me/${numero}?text=${msg}`;
-    }
 
     produtosFavoritos.forEach(produto => {
         const item = document.createElement("div");
@@ -233,59 +237,30 @@ botaoAbrir.addEventListener("click", () => {
     });
 
     overlayFavoritos.classList.add("ativo");
-    ocultarBotoesFlutuantes();
+    ocultarBotoesFixos();
 });
 
 botaoLimpar.addEventListener("click", () => {
     setFavoritos([]);
     overlayFavoritos.classList.remove("ativo");
-    whatsappBtn.style.display = "none";
     atualizarExibicao();
-    mostrarBotoesFlutuantes();
+    mostrarBotoesFixos();
 });
 
 // --- Modal de Ajuda (FAQ) ---
-const overlayAjuda = document.createElement("div");
-overlayAjuda.id = "overlayAjuda";
-overlayAjuda.className = "overlay-ajuda";
-overlayAjuda.innerHTML = `
-  <div class="modal-ajuda" onclick="event.stopPropagation()">
-    <div class="conteudo-ajuda">
-      <div class="header-ajuda">
-        <h3 class="titulo-ajuda">Como podemos ajudar?</h3>
-        <button class="fechar-ajuda" id="fecharAjuda">Fechar</button>
-      </div>
-      <hr class="divisor-modal" />
-      <div class="faq-conteudo">
-        <h4>Quem Somos?</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <h4>Entregas</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <h4>Dúvidas</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <h4>Onde Encontrar</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-    </div>
-  </div>
-`;
-document.body.appendChild(overlayAjuda);
+const overlayAjuda = document.getElementById("overlayAjuda");
+const botaoAjuda = document.getElementById("botaoAjuda");
 
-const botaoAjuda = document.createElement("button");
-botaoAjuda.id = "botaoAjuda";
-botaoAjuda.className = "botao-ajuda-flutuante";
-botaoAjuda.innerHTML = `<img src="./img/geral/logo.png" alt="Ajuda" />`;
-
+// Evento abrir modal ajuda
 botaoAjuda.addEventListener("click", () => {
     overlayAjuda.classList.add("ativo");
-    ocultarBotoesFlutuantes();
+    ocultarBotoesFixos();
 });
 
-document.body.appendChild(botaoAjuda);
-
+// Evento fechar modal ajuda
 document.getElementById("fecharAjuda").addEventListener("click", () => {
     overlayAjuda.classList.remove("ativo");
-    mostrarBotoesFlutuantes();
+    mostrarBotoesFixos();
 });
 
 // --- Inicialização ao carregar a página ---
@@ -294,4 +269,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     atualizarExibicao();
     configurarFiltros();
     configurarPesquisa();
+    mostrarBotoesFixos();
 });
