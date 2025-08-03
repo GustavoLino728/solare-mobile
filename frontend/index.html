@@ -24,25 +24,6 @@
         </div>
     </header>
 
-    <!-- Overlay do modal -->
-    <div id="overlayFavoritos" class="overlay-favoritos">
-    <div class="modal-favoritos" onclick="event.stopPropagation()">
-        <div class="conteudo-favoritos">
-        <div class="header-favoritos">
-            <h3 class="titulo-favoritos">Seus Favoritos</h3>
-            <button class="limpar-favoritos" onclick="removerTodosFavoritos()">Remover todos</button>
-        </div>
-        <hr class="divisor-modal" />
-        <div id="listaFavoritos" class="grid-favoritos">
-            <!-- Itens adicionados dinamicamente aqui -->
-        </div>
-        </div>
-    </div>
-    </div>
-
-    <!-- Botão flutuante (fora do overlay, abaixo no DOM!) -->
-    <button id="abrirFavoritos" class="botao-favoritos-flutuante">❤</button>
-
     <div class="barra-pesquisa-container">
         <i class="fas fa-search lupa-icon"></i>
         <input type="text" id="barra-pesquisa" placeholder="Buscar produto..." />
@@ -86,6 +67,56 @@
         </div>
     </div>
 
+        <!-- Overlay do modal -->
+    <div id="overlayFavoritos" class="overlay-favoritos">
+        <div class="modal-favoritos" onclick="event.stopPropagation()">
+            <div class="conteudo-favoritos">
+                <div class="header-favoritos">
+                    <h3 class="titulo-favoritos">Seus Favoritos</h3>
+                    <button class="limpar-favoritos" onclick="removerTodosFavoritos()">Remover todos</button>
+                </div>
+                <hr class="divisor-modal" />
+                <div id="listaFavoritos" class="grid-favoritos">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay e Modal de Ajuda (FAQ) -->
+    <div id="overlayAjuda" class="overlay-ajuda">
+    <div class="modal-ajuda" onclick="event.stopPropagation()">
+        <div class="conteudo-ajuda">
+        <div class="header-ajuda">
+            <h3 class="titulo-ajuda">Como podemos ajudar?</h3>
+            <button class="fechar-ajuda" id="fecharAjuda">Fechar</button>
+        </div>
+        <hr class="divisor-modal" />
+        <div class="faq-conteudo">
+            <h4>Quem Somos?</h4>
+            <p>A Solare é uma marca que busca trazer moda a um custo acessivel, promovendo o uso do aço como acessorio.</p>
+            <h4>Entregas</h4>
+            <p>Realizamos entrgeas para: Candeias, Barra de Jangada, Piedade e regiões. Para mais informações consulte o Whatsapp</p>
+            <h4>Dúvidas</h4>
+            <p>Nosso meio oficial de comunicação é o whatsapp, então qualquer questionamento é só chamar por lá.</p>
+            <h4>Onde Encontrar</h4>
+            <p>Acompanhe pelo instagram para ter sempre a certeza mas atualmente estamos em feirinhas como a feirinha de barra e a vila da praia.</p>
+        </div>
+        </div>
+    </div>
+    </div>
+
+        <!-- Botão flutuante (fora do overlay, abaixo no DOM!) -->
+    <div class="barra-botoes-fixos">
+        <button id="abrirFavoritos" class="botao-favoritos-fixo">❤</button>
+
+        <button id="whatsapp-btn" class="whatsapp-btn-fixo">
+            Compre seus favoritos aqui<i class="fab fa-whatsapp"></i>
+        </button>
+
+        <button id="botaoAjuda" class="botao-ajuda-fixo">
+            <img src="./img/geral/logo.png" alt="Ajuda">
+        </button>
+    </div>
     <script type="module" src="./js/catalogo.js"></script>
     <script src="https://kit.fontawesome.com/826456405c.js" crossorigin="anonymous"></script>
 </body>
