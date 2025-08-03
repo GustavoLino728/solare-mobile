@@ -2,7 +2,6 @@
 paleta
 cor principal: #99b38f
 botão ativo: #546D4A
-
 */
 @font-face {
     font-family: 'AthachantrTrial-Regular', sans-serif;
@@ -21,15 +20,12 @@ body {
     color: white;
 }
 
-body > *:not(.header) {
-  padding: 5px;
-}
-
 .barra-pesquisa-container {
   position: relative;
   display: flex;
   justify-content: center;
   margin: 20px 0;
+  padding: 5px;
 }
 
 #barra-pesquisa {
@@ -64,13 +60,13 @@ body > *:not(.header) {
   font-size: 18px;
 }
 
-
 .filtros{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 10px;
+    gap: 15px;
     background-color: rgba(235, 233, 233, 0.733);
+    padding: 5px;
 }
 
 .botoes-filtros{
@@ -98,6 +94,7 @@ body > *:not(.header) {
     gap: 20px;
     grid-template-columns: repeat(2, 1fr);
     margin-top: 20px;
+    padding: 5px;
 }
 
 .produto-itens:not(p){
@@ -226,48 +223,98 @@ body > *:not(.header) {
   vertical-align: middle;
 }
 
-/* Favoritos */
-.botao-favoritos {
-  display: none; /* escondido se substituído pelo botão flutuante */
-}
-
-/* Botão flutuante */
-.botao-favoritos-flutuante {
+.barra-botoes-fixos {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  width: 80%;
+  max-width: 600px;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Proporção: 1:2:1 */
+.botao-favoritos-fixo {
+  flex: 1;
   background-color: #ff4081;
   color: white;
-  font-size: 24px;
+  font-size: 40px;
   border: none;
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1 / 1;
+  max-width: 60px;
+  min-width: 48px;
   transition: background 0.3s;
 }
 
-.botao-favoritos-flutuante:hover {
+.botao-favoritos-fixo:hover {
   background-color: #e91e63;
 }
 
-/* Overlay acinzentado */
+.whatsapp-btn-fixo {
+  flex: 2;
+  background-color: #25D366;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.whatsapp-btn-fixo:disabled {
+  background-color: #c1c1c1;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.botao-ajuda-fixo {
+  flex: 1;
+  background-color: #546D4A;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  max-width: 60px;
+  min-width: 48px;
+  padding: 5px;
+}
+
+.botao-ajuda-fixo img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.botao-ajuda-fixo:hover {
+  background-color: #223c15;
+}
+
+/* Modal de favoritos */
 .overlay-favoritos {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* fundo escuro translúcido */
+  background: rgba(0, 0, 0, 0.4);
   z-index: 998;
   justify-content: flex-end;
   align-items: flex-end;
 }
 
-/* Modal de favoritos */
 .modal-favoritos {
   background: #fff;
   width: 100%;
@@ -279,11 +326,10 @@ body > *:not(.header) {
   transition: all 0.3s ease;
 }
 
-.titulo-favoritos{
+.titulo-favoritos {
   color: black;
 }
 
-/* Quando ativado */
 .overlay-favoritos.ativo {
   display: flex;
 }
@@ -293,11 +339,6 @@ body > *:not(.header) {
   opacity: 1;
 }
 
-.overlay-favoritos.ativo ~ .botao-favoritos-flutuante {
-  display: none;
-}
-
-/* Conteúdo interno */
 .conteudo-favoritos {
   padding: 1rem;
   height: 100%;
@@ -339,18 +380,86 @@ body > *:not(.header) {
   flex-direction: column;
 }
 
-/* Preço e coração na mesma linha */
 .linha-preco-favorito {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
 }
 
-/* Coração grande dentro do modal */
 .icone-favorito {
   font-size: 25px;
   color: #ff4081;
   cursor: pointer;
   user-select: none;
+}
+
+/* Overlay Ajuda */
+.overlay-ajuda {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 998;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.modal-ajuda {
+  background: #fff;
+  width: 100%;
+  height: 70%;
+  border-top: 2px solid #ccc;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  color: black;
+  padding: 1rem;
+}
+
+.overlay-ajuda.ativo {
+  display: flex;
+}
+
+.overlay-ajuda.ativo .modal-ajuda {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.conteudo-ajuda {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.header-ajuda {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.titulo-ajuda {
+  color: #305820;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.fechar-ajuda {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.faq-conteudo h4 {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.faq-conteudo p {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
 }
