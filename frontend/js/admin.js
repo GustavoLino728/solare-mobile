@@ -40,7 +40,7 @@ async function logout() {
 // Função para buscar e mostrar produtos
 async function loadProducts() {
   try {
-    const res = await fetch(`${API_URL}/products`, { credentials: 'include' });
+    const res = await fetch(`${API_URL}/all_products`, { credentials: 'include' });
     if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
 
     const products = await res.json();
