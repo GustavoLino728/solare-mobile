@@ -167,20 +167,25 @@ function mostrarBotoesFixos() {
         favoritos.includes(p.id.toString())
     );
 
-    whatsappBtn.style.display = "flex";
+whatsappBtn.onclick = () => {
+    const favoritosAtualizados = getFavoritos();
+
+    const produtosFavoritosAtualizados = produtosOriginais.filter(p =>
+        favoritosAtualizados.includes(p.id.toString())
+    );
 
     const mensagem = encodeURIComponent(
         "Olá! Tenho interesse nestes produtos:\n\n" +
-        produtosFavoritos.map((p, i) =>
-            `${i + 1}. ${p.name} - R$${parseFloat(p.price).toFixed(2)}`
+        produtosFavoritosAtualizados.map((p, i) =>
+            `${i + 1}. ${p.name} - ID ${p.id} - R$${parseFloat(p.price).toFixed(2)}`
         ).join("\n") +
         "\n\nPoderia me ajudar?"
-        );
+    );
 
     const numero = "5581995343400";
     const link = `https://wa.me/${numero}?text=${mensagem}`;
-
-    whatsappBtn.onclick = () => window.open(link, '_blank');
+    window.open(link, '_blank');
+};
 }
 
 function ocultarBotoesFixos() {
