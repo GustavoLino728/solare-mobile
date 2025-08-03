@@ -20,7 +20,7 @@
 
         <div class="contato">
             <a href="https://www.instagram.com/solareacoinox/">   <i class="fa-brands fa-instagram icones fa-xl"></i>  </a>   
-            <a href="https://web.whatsapp.com/send/?phone=5581995343400&text&type=phone_number&app_absent=0">   <i class="fa-brands fa-whatsapp fa-xl"></i></i>   </a>
+            <a href="https://wa.me/5581995343400">   <i class="fa-brands fa-whatsapp fa-xl"></i></i>   </a>
         </div>
     </header>
 
@@ -74,6 +74,7 @@
                 <div class="header-favoritos">
                     <h3 class="titulo-favoritos">Seus Favoritos</h3>
                     <button class="limpar-favoritos" onclick="removerTodosFavoritos()">Remover todos</button>
+                    <span id="closeFavoritos" class="close">&times;</span>
                 </div>
                 <hr class="divisor-modal" />
                 <div id="listaFavoritos" class="grid-favoritos">
@@ -88,7 +89,7 @@
         <div class="conteudo-ajuda">
         <div class="header-ajuda">
             <h3 class="titulo-ajuda">Como podemos ajudar?</h3>
-            <button class="fechar-ajuda" id="fecharAjuda">Fechar</button>
+            <span id="closeAjuda" class="close">&times;</span>
         </div>
         <hr class="divisor-modal" />
         <div class="faq-conteudo">
@@ -110,7 +111,7 @@
         <button id="abrirFavoritos" class="botao-favoritos-fixo">❤</button>
 
         <button id="whatsapp-btn" class="whatsapp-btn-fixo">
-            Compre seus favoritos aqui<i class="fab fa-whatsapp"></i>
+            Compre seus favoritos aqui<i class="fab fa-whatsapp icone_whatsapp_btn"></i>
         </button>
 
         <button id="botaoAjuda" class="botao-ajuda-fixo">

@@ -3,10 +3,6 @@ paleta
 cor principal: #99b38f
 botão ativo: #546D4A
 */
-@font-face {
-    font-family: 'AthachantrTrial-Regular', sans-serif;
-    src: url('../font/AthachantrTrial-Regular.otf');
-}
 
 * {
     margin: 0;
@@ -71,21 +67,22 @@ body {
 
 .botoes-filtros{
     background-color: #99b38f;
-    color: black;
+    color: white;
     stroke: none;
     text-decoration: none;
     padding: 4px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: AthachantrTrial-Regular;
-    border: 0.1px solid black;
+    font-weight: bold;
+    border: none;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px;
 }
 
 .botoes-filtros.ativo {
-    background-color: #546D4A; 
+    background-color: #7a9470; 
     font-weight: bold;
-    color: white; 
+    border: none;
 }
 
 .container-produtos{
@@ -132,7 +129,7 @@ body {
 .modal {
   display: none; 
   position: fixed;
-  z-index: 1000;
+  z-index: 1020;
   left: 0; top: 0;
   width: 100%; height: 100%;
   background-color: rgba(0,0,0,0.5);
@@ -159,6 +156,11 @@ body {
   font-weight: bold;
   color: #333;
   cursor: pointer;
+}
+
+#closeFavoritos {
+  position:sticky;
+  display: inline-block;
 }
 
 #modalImage {
@@ -260,8 +262,9 @@ body {
 
 .whatsapp-btn-fixo {
   flex: 2;
-  background-color: #25D366;
+  background-color: #546D4A;
   color: white;
+  font-weight: bold;
   border: none;
   padding: 10px 16px;
   font-size: 14px;
@@ -270,12 +273,6 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.whatsapp-btn-fixo:disabled {
-  background-color: #c1c1c1;
-  cursor: not-allowed;
-  opacity: 0.7;
 }
 
 .botao-ajuda-fixo {
@@ -310,7 +307,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 998;
+  z-index: 1010;
   justify-content: flex-end;
   align-items: flex-end;
 }
@@ -327,7 +324,7 @@ body {
 }
 
 .titulo-favoritos {
-  color: black;
+  color: #305820;
 }
 
 .overlay-favoritos.ativo {
@@ -387,7 +384,8 @@ body {
 }
 
 .icone-favorito {
-  font-size: 25px;
+  font-size: 20px;
+  height: 25px;
   color: #ff4081;
   cursor: pointer;
   user-select: none;
@@ -442,15 +440,6 @@ body {
   color: #305820;
   font-size: 20px;
   font-weight: bold;
-}
-
-.fechar-ajuda {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 4px;
 }
 
 .faq-conteudo h4 {

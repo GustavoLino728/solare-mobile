@@ -2,15 +2,14 @@ import { API_URL } from "./config.js";
 
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
+let produtosOriginais = [];
 
-// Função para verificar se o admin está logado
 async function checkAdmin() {
   try {
     const res = await fetch(`${API_URL}/check-auth`, {
       credentials: 'include'
     });
     const data = await res.json();
-
     if (!data.authenticated) throw new Error('Não autorizado');
     return true;
   } catch {
@@ -20,7 +19,6 @@ async function checkAdmin() {
   }
 }
 
-// Função para logout
 async function logout() {
   try {
     const res = await fetch(`${API_URL}/logout`, {
@@ -37,84 +35,107 @@ async function logout() {
   }
 }
 
-// Função para buscar e mostrar produtos
 async function loadProducts() {
   try {
     const res = await fetch(`${API_URL}/all_products`, { credentials: 'include' });
     if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
 
     const products = await res.json();
-    const tbody = document.querySelector('#productsTable tbody');
-    tbody.innerHTML = '';
+    produtosOriginais = products;
 
-    if (!products.length) {
-      tbody.innerHTML = '<tr><td colspan="8">Nenhum produto cadastrado.</td></tr>';
-      return;
-    }
-
-    products.forEach(p => {
-      const tr = document.createElement('tr');
-
-      if (!p.is_active) {
-          tr.classList.add("inactive-row");
-      }
-      
-      tr.innerHTML = `
-        <td data-label="Ativo">
-            <input type="checkbox" class="product-active-checkbox" data-id="${p.id}" ${p.is_active ? 'checked' : ''} />
-        </td>
-        <td data-label="ID">${p.id}</td>
-        <td data-label="Nome">${p.name}</td>
-        <td data-label="Categoria">${p.category}</td>
-        <td data-label="Preço">R$ ${p.price.toFixed(2)}</td>
-        <td data-label="Descrição">${p.description || ''}</td>
-        <td data-label="Tamanho">${p.size || ''}</td>
-        <td data-label="Cor">${p.color || ''}</td>
-        <td data-label="Ações">
-          <button type="button" onclick="editProduct(${p.id})">Editar</button>
-          <button type="button" onclick="deleteProduct(${p.id})">Excluir</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    // Adiciona botão "Atualizar Status de Produtos" após a tabela
-    const updateBtn = document.createElement('button');
-    updateBtn.textContent = 'Atualizar Status de Produtos';
-    updateBtn.classList.add('btn-primary');
-    updateBtn.style.marginTop = '1rem';
-    updateBtn.id = 'updateActiveStatus';
-
-    updateBtn.addEventListener('click', async () => {
-      const checkboxes = document.querySelectorAll('.product-active-checkbox');
-      const updates = Array.from(checkboxes).map(cb => ({
-        id: parseInt(cb.dataset.id),
-        is_active: cb.checked
-      }));
-
-      try {
-        const res = await fetch(`${API_URL}/products/update-active`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ updates })
-        });
-
-        if (!res.ok) throw new Error('Erro ao atualizar status');
-        alert('Status de produtos atualizado com sucesso!');
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-
-    document.querySelector('#productsTable').after(updateBtn);
-
+    exibirProdutos(produtosOriginais);
   } catch (error) {
     alert(`Erro ao carregar produtos: ${error.message}`);
   }
 }
 
-// Adicionar novo produto
+function exibirProdutos(produtos) {
+  const tbody = document.querySelector('#productsTable tbody');
+  tbody.innerHTML = '';
+
+  if (!produtos.length) {
+    tbody.innerHTML = '<tr><td colspan="8">Nenhum produto encontrado.</td></tr>';
+    return;
+  }
+
+  produtos.forEach(p => {
+    const tr = document.createElement('tr');
+
+    if (!p.is_active) {
+      tr.classList.add("inactive-row");
+    }
+
+    tr.innerHTML = `
+      <td data-label="Ativo">
+        <input type="checkbox" class="product-active-checkbox" data-id="${p.id}" ${p.is_active ? 'checked' : ''} />
+      </td>
+      <td data-label="ID">${p.id}</td>
+      <td data-label="Nome">${p.name}</td>
+      <td data-label="Categoria">${p.category}</td>
+      <td data-label="Preço">R$ ${p.price.toFixed(2)}</td>
+      <td data-label="Descrição">${p.description || ''}</td>
+      <td data-label="Tamanho">${p.size || ''}</td>
+      <td data-label="Cor">${p.color || ''}</td>
+      <td data-label="Ações">
+        <button type="button" onclick="editProduct(${p.id})">Editar</button>
+        <button type="button" onclick="deleteProduct(${p.id})">Excluir</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const oldBtn = document.getElementById('updateActiveStatus');
+  if (oldBtn) oldBtn.remove();
+
+  const updateBtn = document.createElement('button');
+  updateBtn.textContent = 'Atualizar Status de Produtos';
+  updateBtn.classList.add('btn-primary');
+  updateBtn.style.marginTop = '1rem';
+  updateBtn.id = 'updateActiveStatus';
+
+  updateBtn.addEventListener('click', async () => {
+    const checkboxes = document.querySelectorAll('.product-active-checkbox');
+    const updates = Array.from(checkboxes).map(cb => ({
+      id: parseInt(cb.dataset.id),
+      is_active: cb.checked
+    }));
+
+    try {
+      const res = await fetch(`${API_URL}/products/update-active`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ updates })
+      });
+
+      if (!res.ok) throw new Error('Erro ao atualizar status');
+      alert('Status de produtos atualizado com sucesso!');
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+  document.querySelector('#productsTable').after(updateBtn);
+}
+
+// Busca
+function aplicarBusca(produtos, termo) {
+  const termoNormalizado = termo.toLowerCase().trim();
+  return produtos.filter(p => p.name.toLowerCase().includes(termoNormalizado));
+}
+
+function configurarPesquisa() {
+  const barra = document.getElementById("barra-pesquisa");
+  if (!barra) return;
+
+  barra.addEventListener("input", () => {
+    const termo = barra.value;
+    const filtrados = aplicarBusca(produtosOriginais, termo);
+    exibirProdutos(filtrados);
+  });
+}
+
+// Adicionar produto
 document.getElementById('formAddProduct').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;
@@ -142,7 +163,6 @@ document.getElementById('formAddProduct').addEventListener('submit', async (e) =
   }
 });
 
-// Deletar produto
 async function deleteProduct(id) {
   if (!confirm("Tem certeza que deseja excluir este produto?")) return;
 
@@ -230,13 +250,16 @@ formEdit.onsubmit = async (e) => {
   }
 };
 
-// Inicializa o admin
+// Inicialização
 window.onload = async () => {
   const loggedIn = await checkAdmin();
-  if (loggedIn) loadProducts();
+  if (loggedIn) {
+    await loadProducts();
+    configurarPesquisa();
+  }
 
   const logoutBtn = document.getElementById('logoutBtn');
-  if(logoutBtn) {
+  if (logoutBtn) {
     logoutBtn.addEventListener('click', async (e) => {
       e.preventDefault();
       await logout();
