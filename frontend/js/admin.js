@@ -118,6 +118,81 @@ function exibirProdutos(produtos) {
   document.querySelector('#productsTable').after(updateBtn);
 }
 
+document.getElementById('exportExcelBtn').addEventListener('click', () => {
+  if (!produtosOriginais || produtosOriginais.length === 0) {
+    alert("Nenhum produto para exportar!");
+    return;
+  }
+
+  const dadosFormatados = produtosOriginais.map(p => ({
+    'ID': p.id,
+    'Nome': p.name,
+    'Categoria': p.category,
+    'Preço (R$)': p.price.toFixed(2),
+    'Tamanho': p.size || '',
+    'Descrição': p.description || '',
+    'Cor': p.color || '',
+    'Está Ativo': p.is_active ? 'Sim' : 'Não'
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(dadosFormatados);
+
+  // Ajustar largura das colunas
+  const colWidths = [
+    { wch: 6 },   // ID
+    { wch: 25 },  // Nome
+    { wch: 15 },  // Categoria
+    { wch: 12 },  // Preço
+    { wch: 10 },  // Tamanho
+    { wch: 40 },  // Descrição
+    { wch: 15 },  // Cor
+    { wch: 10 },  // Está Ativo
+  ];
+  ws['!cols'] = colWidths;
+
+  ws['!autofilter'] = { ref: `A1:H${dadosFormatados.length + 1}` };
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Produtos");
+
+  // Formatação simples do cabeçalho
+
+  const range = XLSX.utils.decode_range(ws['!ref']);
+  for(let C = range.s.c; C <= range.e.c; ++C) {
+    const cell_address = XLSX.utils.encode_cell({c:C, r:0});
+    if(!ws[cell_address]) continue;
+    ws[cell_address].s = {
+      fill: { fgColor: { rgb: "CCCCCC" } }, // cinza claro
+      font: { bold: true, color: { rgb: "000000" } },
+      border: {
+        top: { style: "thin", color: { rgb: "000000" } },
+        bottom: { style: "thin", color: { rgb: "000000" } },
+        left: { style: "thin", color: { rgb: "000000" } },
+        right: { style: "thin", color: { rgb: "000000" } }
+      }
+    };
+  }
+
+  // Aplicar borda nas demais células da tabela
+  for(let R = 1; R <= range.e.r; ++R) {
+    for(let C = range.s.c; C <= range.e.c; ++C) {
+      const cell_address = XLSX.utils.encode_cell({c:C, r:R});
+      if(!ws[cell_address]) continue;
+      ws[cell_address].s = {
+        border: {
+          top: { style: "thin", color: { rgb: "000000" } },
+          bottom: { style: "thin", color: { rgb: "000000" } },
+          left: { style: "thin", color: { rgb: "000000" } },
+          right: { style: "thin", color: { rgb: "000000" } }
+        }
+      };
+    }
+  }
+
+  XLSX.writeFile(wb, "produtos.xlsx");
+});
+
+
 // Busca
 function aplicarBusca(produtos, termo) {
   const termoNormalizado = termo.toLowerCase().trim();
