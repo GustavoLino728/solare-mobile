@@ -465,24 +465,17 @@ body.modal-open {
     }
 
     .produto-itens img {
-        height: 220px; 
+        height: 300px; 
     }
 
     #modalImage {
       height: 400px;
+      width: 300px;
     }
+    
+    .produto-itens p, .botoes-filtros{
+      font-size: 16px;
+    }
+
 }
 
-@media (min-width: 1024px) {
-    .container-produtos {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .produto-itens img {
-        height: 400px; 
-    }
-
-    #modalImage {
-      height: 450px;
-    }
-}
