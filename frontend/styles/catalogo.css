@@ -103,7 +103,7 @@ body.modal-open {
   background-color: #99b38f;
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 10px;
-  padding: 10px;
+  padding:  10px;
   text-align: left;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 14px;
@@ -247,9 +247,9 @@ body.modal-open {
 /* Proporção: 1:2:1 */
 .botao-favoritos-fixo {
   flex: 1;
-  background-color: #ff4081;
+  background-color: #546D4A;
   color: white;
-  font-size: 40px;
+  font-size: 35px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -262,9 +262,33 @@ body.modal-open {
   transition: background 0.3s;
 }
 
-.botao-favoritos-fixo:hover {
-  background-color: #e91e63;
+.botao-favoritos-fixo:hover, .whatsapp-btn-fixo:hover, .botao-ajuda-fixo:hover{
+  background-color: #223c15;
 }
+
+.icone-favorito {
+    border: none;
+    border-radius: 30%; 
+    width: 30px; 
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0; 
+}
+
+.icone-favorito i {
+    color: gray; 
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.icone-favorito.favorito-ativo, .icone-favorito.favorito-ativo i{
+  background-color: #546D4A;
+  color: white;
+}
+
 
 .whatsapp-btn-fixo {
   flex: 2;
@@ -303,9 +327,7 @@ body.modal-open {
   object-fit: contain;
 }
 
-.botao-ajuda-fixo:hover {
-  background-color: #223c15;
-}
+
 
 /* Modal de favoritos */
 .overlay-favoritos {
@@ -378,24 +400,89 @@ body.modal-open {
 }
 
 .grid-favoritos .produto-itens {
-  padding: 10px;
   display: flex;
   flex-direction: column;
 }
 
+/* Linha do preço + botão de carrinho */
 .linha-preco-favorito {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px; /* espaço extra */
 }
 
-.icone-favorito {
-  font-size: 20px;
-  height: 25px;
-  color: #ff4081;
-  cursor: pointer;
-  user-select: none;
+/* Linha do nome + botão de carrinho */
+.linha-nome-favorito {
+    display: flex;
+    justify-content: space-between; /* nome à esquerda, carrinho à direita */
+    align-items: center; /* centraliza verticalmente o botão com o nome */
+    gap: 8px;
 }
+
+/* Nome do produto */
+.linha-nome-favorito .produto-itens {
+    margin: 0;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 1.4; /* garante altura consistente */
+    color: #333;
+}
+
+/* Preço abaixo do nome */
+.produto-preco {
+    margin-top: 4px;
+    padding-left: 0; /* garante que comece no mesmo alinhamento do nome */
+}
+
+.produto-price {
+    font-size: 14px;
+    color: #305820;
+    margin: 0;
+    display: inline-block;
+}
+
+
+/* Container de quantidade */
+.quantidade-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre botões e número */
+    margin-top: 8px;
+}
+
+
+
+/* Botões - e + */
+.quantidade-container button {
+    display: flex; /* centraliza o símbolo */
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    font-size: 16px; /* um pouco menor que 18px */
+    font-weight: bold;
+    width: 30px; /* mais confortável */
+    height: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quantidade-container button:hover {
+    background-color: #ddd;
+}
+
+/* Número da quantidade */
+.quantidade-container .quantidade {
+    min-width: 24px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 
 /* Overlay Ajuda */
 .overlay-ajuda {
