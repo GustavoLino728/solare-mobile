@@ -75,7 +75,7 @@
         <input type="number" id="editPrice" name="price" step="0.01" min="0" required />
 
         <label for="editImg">Imagem*</label>
-        <input type="file" id="editImg" name="img" accept="image/*" required />
+        <input type="file" id="editImg" name="img" accept="image/*"/>
 
 
         <label for="editDescription">Descrição</label>
@@ -94,6 +94,31 @@
       </form>
     </div>
   </div>
+
+<section class="form-section">
+  <h2>Gerenciar Tags</h2>
+
+  <!-- Criar nova tag -->
+  <form id="formAddTag">
+    <label>Nome da Tag: <input type="text" name="name" required /></label>
+    <button type="submit">Adicionar Tag</button>
+  </form>
+
+  <!-- Seleção da Tag existente -->
+  <label for="selectTag">Selecione uma Tag:</label>
+  <select id="selectTag">
+    <option value="">-- Escolha uma tag --</option>
+  </select>
+
+  <!-- Seleção de Produtos para associar -->
+  <label for="selectProducts">Associe produtos à tag:</label>
+  <select id="selectProducts" multiple size="8" style="width:100%; max-height:200px; overflow:auto;">
+    <!-- Produtos carregados via JS -->
+  </select>
+
+  <button id="btnSaveTagProducts" class="btn-primary">Salvar associações</button>
+</section>
+
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script type="module" src="./js/admin.js"></script>
 </body>

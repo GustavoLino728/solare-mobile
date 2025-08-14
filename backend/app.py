@@ -1,6 +1,7 @@
 from flask import Flask
 from routes.products import products_bp
 from routes.login import login_bp
+from routes.tags import tags_bp
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
@@ -18,6 +19,7 @@ CORS(app,origins=["http://127.0.0.1:5500", "https://solare-catalogo.vercel.app"]
 
 app.register_blueprint(products_bp)
 app.register_blueprint(login_bp)
+app.register_blueprint(tags_bp)
 
 @app.route("/api/ping", methods=['GET'])
 def ping():
