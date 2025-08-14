@@ -325,6 +325,7 @@ formEdit.onsubmit = async (e) => {
   }
 };
 
+// TAGS 
 const selectTag = document.getElementById('selectTag');
 const selectProducts = document.getElementById('selectProducts');
 const btnSaveTagProducts = document.getElementById('btnSaveTagProducts');
@@ -349,6 +350,33 @@ document.getElementById('formAddTag').addEventListener('submit', async (e) => {
   } catch (err) {
     alert(err.message);
   }
+});
+
+const btnDeleteTag = document.getElementById('btnDeleteTag');
+
+btnDeleteTag.addEventListener('click', async () => {
+    const tagId = selectTag.value;
+    if (!tagId) return alert('Selecione uma tag para deletar!');
+
+    if (!confirm('Tem certeza que deseja deletar esta tag? Esta ação não pode ser desfeita.')) return;
+
+    try {
+        const res = await fetch(`${API_URL}/tags/${tagId}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        });
+
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.message || 'Erro ao deletar tag');
+        }
+
+        alert('Tag deletada com sucesso!');
+        await loadTags();
+        Array.from(selectProducts.options).forEach(opt => opt.selected = false);
+    } catch (err) {
+        alert(err.message);
+    }
 });
 
 

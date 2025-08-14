@@ -3,7 +3,6 @@ from supabase_client import supabase
 
 tags_bp = Blueprint("tags", __name__)
 
-# Listar todas as tags
 @tags_bp.route('/api/tags', methods=['GET'])
 def get_tags():
     response = supabase.table("tags").select("*").execute()
@@ -11,7 +10,6 @@ def get_tags():
         return jsonify([]), 200
     return jsonify(response.data)
 
-# Criar nova tag
 @tags_bp.route('/api/tags', methods=['POST'])
 def create_tag():
     data = request.get_json()
@@ -19,13 +17,22 @@ def create_tag():
     if not name:
         return jsonify({"message": "Nome da tag é obrigatório"}), 400
 
-    # Inserir no Supabase
     res = supabase.table("tags").insert({"name": name}).execute()
     if getattr(res, "status_code", 200) >= 400 or getattr(res, "error", None):
         return jsonify({"message": "Erro ao criar tag"}), 500
     return jsonify({"message": "Tag criada com sucesso"}), 201
 
-# Obter produtos associados a uma tag
+@tags_bp.route('/api/tags/<id>', methods=['DELETE'])
+def delete_tag(id):
+    res = supabase.table("tags").delete().eq("id", id).execute()
+    if getattr(res, "status_code", 200) >= 400 or getattr(res, "error", None):
+        return jsonify({"message": "Erro ao deletar tag"}), 500
+    if not res.data:
+        return jsonify({"message": "Tag não encontrada"}), 404
+
+    return jsonify({"message": "Tag deletada com sucesso"}), 200
+
+
 @tags_bp.route('/api/tags/<int:tag_id>/products', methods=['GET'])
 def get_products_by_tag(tag_id):
     res = supabase.table("products_tags").select("product_id").eq("tag_id", tag_id).execute()
