@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
 from supabase_client import supabase
+from flask_cors import CORS
 import os
 import tempfile
 import mimetypes
 import re
 
 products_bp = Blueprint('products', __name__)
+CORS(products_bp, origins=["http://127.0.0.1:5500", "https://solare-catalogo.vercel.app"], supports_credentials=True)
 bucket_name = "products-img"
 
 def sanitize_product_name(name: str) -> str:
