@@ -5,7 +5,6 @@ import tempfile
 import mimetypes
 import re
 
-
 products_bp = Blueprint('products', __name__)
 bucket_name = "products-img"
 
