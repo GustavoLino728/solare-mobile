@@ -250,19 +250,142 @@ formEdit.onsubmit = async (e) => {
   }
 };
 
-// Inicialização
-window.onload = async () => {
-  const loggedIn = await checkAdmin();
-  if (loggedIn) {
-    await loadProducts();
-    configurarPesquisa();
+const selectTag = document.getElementById('selectTag');
+const selectProducts = document.getElementById('selectProducts');
+const btnSaveTagProducts = document.getElementById('btnSaveTagProducts');
+
+document.getElementById('formAddTag').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const name = form.name.value.trim();
+  if (!name) return alert('Digite o nome da tag');
+
+  try {
+    const res = await fetch(`${API_URL}/tags`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ name })
+    });
+    if (!res.ok) throw new Error('Erro ao criar tag');
+    alert('Tag criada com sucesso!');
+    form.reset();
+    await loadTags(); // Atualiza o select de tags
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
+
+const tagsList = document.getElementById('tagsList');
+
+function exibirTagsNaLista(tags) {
+  if (!tagsList) return;
+  tagsList.innerHTML = '';
+
+  if (!tags.length) {
+    tagsList.innerHTML = '<li>Nenhuma tag cadastrada.</li>';
+    return;
   }
 
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      await logout();
+  tags.forEach(tag => {
+    const li = document.createElement('li');
+    li.textContent = tag.name;
+    tagsList.appendChild(li);
+  });
+}
+
+
+async function loadTags() {
+  try {
+    const res = await fetch(`${API_URL}/tags`, { credentials: 'include' });
+    const tags = await res.json();
+
+    selectTag.innerHTML = '<option value="">-- Escolha uma tag --</option>';
+    tags.forEach(tag => {
+      const option = document.createElement('option');
+      option.value = tag.id;
+      option.textContent = tag.name;
+      selectTag.appendChild(option);
     });
+
+    exibirTagsNaLista(tags);
+
+  } catch (err) {
+    console.error('Erro ao carregar tags:', err);
   }
+}
+
+async function loadAllProductsForSelect() {
+    try {
+        const res = await fetch(`${API_URL}/all_products`, { credentials: 'include' });
+        const products = await res.json();
+        selectProducts.innerHTML = '';
+        products.forEach(p => {
+            const option = document.createElement('option');
+            option.value = p.id;
+            option.textContent = `${p.name} (${p.category})`;
+            selectProducts.appendChild(option);
+        });
+    } catch (err) {
+        console.error('Erro ao carregar produtos:', err);
+    }
+}
+
+selectTag.addEventListener('change', async () => {
+    const tagId = selectTag.value;
+    if (!tagId) return;
+
+    try {
+        const res = await fetch(`${API_URL}/tags/${tagId}/products`, { credentials: 'include' });
+        const associatedProducts = await res.json();
+        // Desmarcar todos
+        Array.from(selectProducts.options).forEach(opt => opt.selected = false);
+        // Marcar produtos associados
+        associatedProducts.forEach(p => {
+            const opt = Array.from(selectProducts.options).find(o => parseInt(o.value) === p.id);
+            if (opt) opt.selected = true;
+        });
+    } catch (err) {
+        alert('Erro ao carregar produtos da tag: ' + err.message);
+    }
+});
+
+btnSaveTagProducts.addEventListener('click', async () => {
+    const tagId = selectTag.value;
+    if (!tagId) { alert('Selecione uma tag!'); return; }
+
+    const selectedProducts = Array.from(selectProducts.selectedOptions).map(o => parseInt(o.value));
+
+    try {
+        const res = await fetch(`${API_URL}/tags/${tagId}/products`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ product_ids: selectedProducts })
+        });
+        if (!res.ok) throw new Error('Falha ao salvar associações');
+        alert('Associações atualizadas com sucesso!');
+    } catch (err) {
+        alert(err.message);
+    }
+});
+
+// Inicialização
+window.onload = async () => {
+    const loggedIn = await checkAdmin();
+    if (loggedIn) {
+        await loadProducts();
+        configurarPesquisa();
+        await loadTags();
+        await loadAllProductsForSelect();
+    }
+
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await logout();
+        });
+    }
 };
