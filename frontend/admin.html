@@ -35,6 +35,7 @@
       <div class="barra-pesquisa-container">
         <i class="fas fa-search lupa-icon"></i>
         <input type="text" id="barra-pesquisa" placeholder="Buscar produto..." />
+        <button id="exportExcelBtn" class="btn-export">Exportar para Excel</button>
       </div>
       <table id="productsTable" aria-describedby="products-desc">
         <thead>
@@ -118,6 +119,7 @@
   <button id="btnSaveTagProducts" class="btn-primary">Salvar associações</button>
 </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script type="module" src="./js/admin.js"></script>
 </body>
 </html>
