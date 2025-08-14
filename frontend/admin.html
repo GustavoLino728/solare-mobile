@@ -16,35 +16,44 @@
     <h1 id="title">Painel de Administração - Produtos</h1>
     <p><a href="#" id="logoutBtn">Logout</a></p>
 
+    <!-- Tags -->
     <section class="form-section">
       <h2>Gerenciar Tags</h2>
 
       <form id="formAddTag">
         <label>Nome da Tag: <input type="text" name="name" required /></label>
         <button type="submit" id="btnAddTag">Adicionar Tag</button>
-        <button id="btnDeleteTag" class="btn-danger">Deletar Tag</button>
       </form>
+
+      <hr>
 
       <label for="selectTag">Selecione uma Tag:</label>
       <select id="selectTag">
         <option value="">-- Escolha uma tag --</option>
       </select>
-    
-      <label for="selectProducts">Associe produtos à tag:</label>
-      <select id="selectProducts" multiple size="8" style="width:100%; max-height:200px; overflow:auto;">
+      <button id="btnDeleteTag" class="btn-danger" type="button">Deletar Tag</button>
        
-      </select>
+    
+      <label>Associe produtos à tag:</label>
+      <input type="text" id="searchTagProducts" placeholder="Digite para buscar..." style="width:100%; margin-bottom:0.5rem;" />
+      <div id="productsCheckboxContainer" style="max-height:200px; overflow:auto; border:1px solid #ccc; padding:0.5rem;"></div>
 
-      <button id="btnSaveTagProducts" class="btn-primary">Salvar associações</button>
+      <div id="productsCheckboxContainer" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 0.5rem;">
+        <!-- Checkboxes serão adicionados aqui dinamicamente -->
+      </div>
+
+
+      <button id="btnSaveTagProducts" class="btn-primary" type="button">Salvar associações</button>
     </section>
 
+    <!-- Adicionar Produto -->
     <section class="form-section">
       <h2>Adicionar Novo Produto</h2>
       <form id="formAddProduct" enctype="multipart/form-data">
-        <label>Nome: <input type="text" name="name" required /></label>
-        <label>Categoria: <input type="text" name="category" required /></label>
-        <label>Preço: <input type="number" name="price" step="0.01" required /></label>
-        <label>Imagem: <input type="file" name="img" accept="image/*" required /></label>
+        <label>Nome*: <input type="text" name="name" required /></label>
+        <label>Categoria*: <input type="text" name="category" required /></label>
+        <label>Preço*: <input type="number" name="price" step="0.01" required /></label>
+        <label>Imagem*: <input type="file" name="img" accept="image/*" required /></label>
         <label>Descrição: <textarea name="description"></textarea></label>
         <label>Tamanho: <input type="text" name="size" /></label>
         <label>Cor: <input type="text" name="color" /></label>
@@ -52,12 +61,13 @@
       </form>
     </section>
 
+    <!-- Produtos -->
     <section class="table-section">
       <h2>Produtos Cadastrados</h2>
       <div class="barra-pesquisa-container">
         <i class="fas fa-search lupa-icon"></i>
         <input type="text" id="barra-pesquisa" placeholder="Buscar produto..." />
-        <button id="exportExcelBtn" class="btn-export">Exportar para Excel</button>
+        <button id="exportExcelBtn" class="btn-export" type="button">Exportar para Excel</button>
       </div>
       <table id="productsTable" aria-describedby="products-desc">
         <thead>
@@ -87,27 +97,13 @@
       <form id="formEditProduct" novalidate>
         <input type="hidden" name="id" />
 
-        <label for="editName">Nome*</label>
-        <input type="text" id="editName" name="name" required />
-
-        <label for="editCategory">Categoria*</label>
-        <input type="text" id="editCategory" name="category" required />
-
-        <label for="editPrice">Preço (R$)*</label>
-        <input type="number" id="editPrice" name="price" step="0.01" min="0" required />
-
-        <label for="editImg">Imagem*</label>
-        <input type="file" id="editImg" name="img" accept="image/*"/>
-
-
-        <label for="editDescription">Descrição</label>
-        <textarea id="editDescription" name="description" rows="3"></textarea>
-
-        <label for="editSize">Tamanho</label>
-        <input type="text" id="editSize" name="size" />
-
-        <label for="editColor">Cor</label>
-        <input type="text" id="editColor" name="color" />
+        <label>Nome* <input type="text" name="name" required /></label>
+        <label>Categoria* <input type="text" name="category" required /></label>
+        <label>Preço (R$)* <input type="number" name="price" step="0.01" min="0" required /></label>
+        <label>Imagem <input type="file" name="img" accept="image/*"/></label>
+        <label>Descrição <textarea name="description" rows="3"></textarea></label>
+        <label>Tamanho <input type="text" name="size" /></label>
+        <label>Cor <input type="text" name="color" /></label>
 
         <div class="modal-buttons">
           <button type="submit" class="btn-primary">Salvar</button>
