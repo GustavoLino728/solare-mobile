@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
 from supabase_client import supabase
+from flask_cors import CORS
 
 tags_bp = Blueprint("tags", __name__)
+CORS(tags_bp, origins=["http://127.0.0.1:5500", "https://solare-catalogo.vercel.app"], supports_credentials=True)
 
 @tags_bp.route('/api/tags', methods=['GET'])
 def get_tags():

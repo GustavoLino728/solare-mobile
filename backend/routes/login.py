@@ -1,10 +1,12 @@
 from flask import Blueprint, request, session, jsonify
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
 login_bp = Blueprint('login', __name__)
+CORS(login_bp, origins=["http://127.0.0.1:5500", "https://solare-catalogo.vercel.app"], supports_credentials=True)
 
 @login_bp.route('/api/login', methods=['POST'])
 def login():
